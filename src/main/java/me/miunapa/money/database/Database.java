@@ -5,9 +5,9 @@ public interface Database {
 
     boolean getSetupStatus();
 
-    double getBalanceByName(String name);
+    Double getBalanceByName(String name);
 
-    double getBalanceByUuid(String uuid);
+    Double getBalanceByUuid(String uuid);
 
     void setBalanceByName(String name, double balance);
 

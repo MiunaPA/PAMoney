@@ -23,7 +23,7 @@ public class MySQL implements Listener, Database {
     Main plugin = Main.getPlugin(Main.class);
     FileConfiguration config = plugin.getConfig();
     boolean setupStatus = false;
-    Double initMoney = 200.0;
+    Double initMoney = config.getDouble("init_money");
 
     public MySQL() {
         host = config.getString("MySQL.connect.host");
@@ -160,7 +160,7 @@ public class MySQL implements Listener, Database {
         }
     }
 
-    public double getBalanceByName(String name) {
+    public Double getBalanceByName(String name) {
         try {
             if (hasBalanceByName(name)) {
                 PreparedStatement psSelect = connection
@@ -170,15 +170,15 @@ public class MySQL implements Listener, Database {
                 result.next();
                 return result.getDouble("balance");
             } else {
-                return 0.0;
+                return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return 0.0;
+            return null;
         }
     }
 
-    public double getBalanceByUuid(String uuid) {
+    public Double getBalanceByUuid(String uuid) {
         try {
             if (hasBalanceByUuid(uuid)) {
                 PreparedStatement psSelect = connection
@@ -188,11 +188,11 @@ public class MySQL implements Listener, Database {
                 result.next();
                 return result.getDouble("balance");
             } else {
-                return 0.0;
+                return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return 0.0;
+            return null;
         }
     }
 

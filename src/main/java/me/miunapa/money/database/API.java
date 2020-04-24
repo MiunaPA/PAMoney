@@ -1,5 +1,6 @@
 package me.miunapa.money.database;
 
+import java.text.DecimalFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -49,11 +50,11 @@ public class API {
         player.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', message));
     }
 
-    public static double getBalanceByName(String name) {
+    public static Double getBalanceByName(String name) {
         return db.getBalanceByName(name);
     }
 
-    public static double getBalanceByUuid(String uuid) {
+    public static Double getBalanceByUuid(String uuid) {
         return db.getBalanceByUuid(uuid);
     }
 
@@ -63,5 +64,28 @@ public class API {
 
     public static void setBalanceByUuid(String uuid, double balance) {
         db.setBalanceByUuid(uuid, balance);
+    }
+
+    public static boolean hasBalanceByName(String name) {
+        return db.hasBalanceByName(name);
+    }
+
+    public static boolean hasBalanceByUuid(String uuid) {
+        return db.hasBalanceByUuid(uuid);
+    }
+
+    public static String formatAmount(double amount) {
+        DecimalFormat df = new DecimalFormat("#,###.##");
+        return df.format(amount);
+    }
+
+    public static void withdraw(String name, Double plusAmount) {
+        Double d = getBalanceByName(name);
+        setBalanceByName(name, d + plusAmount);
+    }
+
+    public static void deposit(String name, Double lessAmount) {
+        Double d = getBalanceByName(name);
+        setBalanceByName(name, d - lessAmount);
     }
 }

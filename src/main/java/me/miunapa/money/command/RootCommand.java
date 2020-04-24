@@ -17,11 +17,11 @@ public class RootCommand implements CommandExecutor {
             if (args.length >= 1) {
                 String type = args[0];
                 if (type.equals("add")) {
-                    double b = API.getBalanceByUuid(uuid);
+                    Double b = API.getBalanceByUuid(uuid);
                     API.setBalanceByUuid(uuid, b + 10.0);
                     API.sendMessage(player, "&6在 &e" + player.getName() + " &6戶頭內增加了 &c10 &6元");
                 } else {
-                    double b = API.getBalanceByUuid(uuid);
+                    Double b = API.getBalanceByName(type);
                     API.sendMessage(player, "&e" + player.getName() + " &6目前的餘額 : &c" + b + " &6元");
                 }
             } else {
