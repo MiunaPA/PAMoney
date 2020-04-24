@@ -9,8 +9,10 @@ commands:
   money:
     description: 回到上一個傳送點
     usage: /money
-    permission: pamoney.money
+    permission: pamoney.user
 
 permissions:
-  pamoney.money:
+  pamoney.user:
     default: true
+  pamoney.op:
+    default: op

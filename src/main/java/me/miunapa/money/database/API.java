@@ -2,7 +2,7 @@ package me.miunapa.money.database;
 
 import java.text.DecimalFormat;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import net.md_5.bungee.api.ChatColor;
@@ -46,8 +46,8 @@ public class API {
         db.initData();
     }
 
-    public static void sendMessage(Player player, String message) {
-        player.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', message));
+    public static void sendMessage(CommandSender sender, String message) {
+        sender.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public static Double getBalanceByName(String name) {
@@ -79,13 +79,13 @@ public class API {
         return df.format(amount);
     }
 
-    public static void withdraw(String name, Double plusAmount) {
-        Double d = getBalanceByName(name);
-        setBalanceByName(name, d + plusAmount);
-    }
-
-    public static void deposit(String name, Double lessAmount) {
+    public static void withdraw(String name, Double lessAmount) {
         Double d = getBalanceByName(name);
         setBalanceByName(name, d - lessAmount);
+    }
+
+    public static void deposit(String name, Double plusAmount) {
+        Double d = getBalanceByName(name);
+        setBalanceByName(name, d + plusAmount);
     }
 }

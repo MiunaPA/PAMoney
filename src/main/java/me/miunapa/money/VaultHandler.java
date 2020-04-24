@@ -284,5 +284,4 @@ public class VaultHandler implements Economy {
     public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
         return false;
     }
-
 }
