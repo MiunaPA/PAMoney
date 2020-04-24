@@ -80,7 +80,9 @@ public class API {
     }
 
     public static void withdraw(String name, Double lessAmount) {
+        boolean b = hasBalanceByName(name);
         Double d = getBalanceByName(name);
+        System.out.println(name + " " + lessAmount + " " + d + " " + b);
         setBalanceByName(name, d - lessAmount);
     }
 

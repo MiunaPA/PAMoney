@@ -6,8 +6,8 @@ import me.miunapa.money.command.SubCommand;
 import me.miunapa.money.database.API;
 import net.md_5.bungee.api.ChatColor;
 
-public class PlusSub extends SubCommand {
-    public PlusSub() {
+public class Plus extends SubCommand {
+    public Plus() {
         super("plus", "pamoney.plus",
                 ChatColor.GOLD + "/money plus <ID> <amount> " + ChatColor.GRAY + "- 增加他人的金錢");
     }
@@ -28,7 +28,4 @@ public class PlusSub extends SubCommand {
         }
         return false;
     }
-
-
-
 }

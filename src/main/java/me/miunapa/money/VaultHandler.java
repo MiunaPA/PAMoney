@@ -2,23 +2,53 @@ package me.miunapa.money;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.plugin.Plugin;
 import me.miunapa.money.database.API;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 public class VaultHandler implements Economy {
-
-    private final String name = "PA-Money";
+    private final String pluginName = "PA-Money";
     private Main plugin;
-    FileConfiguration config = plugin.getConfig();
-
+    FileConfiguration config;
 
     public VaultHandler(Main plugin) {
         this.plugin = plugin;
+        this.config = plugin.getConfig();
+        Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(), plugin);
         plugin.getLogger().info("Vault support enabled.");;
+    }
+
+    public class EconomyServerListener implements Listener {
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onPluginEnable(PluginEnableEvent event) {
+            if (plugin == null) {
+                Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("PAMoney");
+                if (plugin != null && plugin.isEnabled()) {
+                    VaultHandler.this.plugin = (Main) plugin;
+                    VaultHandler.this.plugin.getLogger().info("Vault support enabled.");
+                }
+            }
+        }
+
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onPluginDisable(PluginDisableEvent event) {
+            if (plugin != null) {
+                if (event.getPlugin().getDescription().getName().equals(pluginName)) {
+                    plugin = null;
+                    Bukkit.getLogger().info("Vault support disabled.");
+                }
+            }
+        }
     }
 
     @Override
@@ -28,7 +58,7 @@ public class VaultHandler implements Economy {
 
     @Override
     public String getName() {
-        return name;
+        return pluginName;
     }
 
     @Override
@@ -125,7 +155,7 @@ public class VaultHandler implements Economy {
         } else {
             Double d = API.getBalanceByName(playerName);
             if (has(playerName, amount)) {
-                API.withdraw(name, amount);
+                API.withdraw(playerName, amount);
                 return new EconomyResponse(amount, d - amount, ResponseType.SUCCESS, "");
             } else {
                 return new EconomyResponse(0, d, ResponseType.FAILURE, "金額不足");
@@ -163,7 +193,7 @@ public class VaultHandler implements Economy {
             Double limit = config.getDouble("limit_money");
             Double d = API.getBalanceByName(playerName);
             if ((d + amount) <= limit) {
-                API.deposit(name, amount);
+                API.deposit(playerName, amount);
                 return new EconomyResponse(amount, d + amount, ResponseType.SUCCESS, "");
             } else {
                 return new EconomyResponse(0, d, ResponseType.FAILURE, "金額超過上限");

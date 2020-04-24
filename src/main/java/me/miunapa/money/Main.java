@@ -2,9 +2,12 @@ package me.miunapa.money;
 
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import me.miunapa.money.command.RootCommand;
 import me.miunapa.money.database.API;
+import net.milkbowl.vault.economy.Economy;
 
 public class Main extends JavaPlugin {
     FileConfiguration config = this.getConfig();
@@ -33,6 +36,7 @@ public class Main extends JavaPlugin {
     }
 
     void init() {
+        setupVault();
         new RootCommand();
     }
 
@@ -43,5 +47,14 @@ public class Main extends JavaPlugin {
 
     public String getServerName() {
         return config.getString("server_name");
+    }
+
+    void setupVault() {
+        Plugin vault = getServer().getPluginManager().getPlugin("Vault");
+        if (vault == null) {
+            return;
+        }
+        getServer().getServicesManager().register(Economy.class, new VaultHandler(this), this,
+                ServicePriority.Highest);
     }
 }

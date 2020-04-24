@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import me.miunapa.money.command.Sub.PlusSub;
+import me.miunapa.money.command.Sub.*;
 import me.miunapa.money.database.API;
 
 public class RootCommand implements CommandExecutor {
@@ -18,13 +18,21 @@ public class RootCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player || sender instanceof ConsoleCommandSender) {
             if (args.length < 1) {
-                API.sendMessage(sender, "args 0");
+                if (sender instanceof Player) {
+                    getBalance(sender, ((Player) sender).getName());
+                } else {
+                    API.sendMessage(sender, "args >1 null console");
+                }
             } else {
                 SubCommand sub = getCommand(args[0]);
                 if (sub != null) {
                     sub.onCommand(sender, command, label, args);
                 } else {
-                    API.sendMessage(sender, "sub null");
+                    if (args.length == 1) {
+                        getBalance(sender, args[0]);
+                    } else {
+                        API.sendMessage(sender, "args >1 null");
+                    }
                 }
             }
         }
@@ -43,6 +51,15 @@ public class RootCommand implements CommandExecutor {
     public RootCommand() {
         Bukkit.getPluginCommand("money").setExecutor(this);
         commands = new ArrayList<SubCommand>();
-        commands.add(new PlusSub());
+        commands.add(new Plus());
+    }
+
+    void getBalance(CommandSender sender, String name) {
+        if (API.hasBalanceByName(name)) {
+            Double d = API.getBalanceByName(name);
+            API.sendMessage(sender, "&e" + name + " &7目前有 &c" + API.formatAmount(d) + " &7元");
+        } else {
+            API.sendMessage(sender, "&d此帳號不存在");
+        }
     }
 }
