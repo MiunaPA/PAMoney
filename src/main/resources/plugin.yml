@@ -4,3 +4,13 @@ author: MiunaPA
 version: 0.0.1dev
 depend: [Vault]
 api-version: 1.15
+
+commands:
+  money:
+    description: 回到上一個傳送點
+    usage: /money
+    permission: pamoney.money
+
+permissions:
+  pamoney.money:
+    default: true

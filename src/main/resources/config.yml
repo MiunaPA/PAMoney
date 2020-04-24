@@ -1,0 +1,9 @@
+MySQL:
+  connect:
+    host: localhost
+    port: 3306
+    database: ''
+    username: ''
+    password: ''
+type: yml
+server_name: server
