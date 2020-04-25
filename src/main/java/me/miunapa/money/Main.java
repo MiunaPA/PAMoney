@@ -30,6 +30,7 @@ public class Main extends JavaPlugin {
         }
         init();
         getLogger().info("PAMoney Starting!  Author:MiunaPA");
+        API.setConfig(config);
         if (API.setupEconomy()) {
             getLogger().info("PA Money");
         }

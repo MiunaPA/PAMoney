@@ -68,12 +68,12 @@ public class VaultHandler implements Economy {
 
     @Override
     public int fractionalDigits() {
-        return 2;
+        return 1;
     }
 
     @Override
     public String format(double amount) {
-        return API.formatAmount(amount);
+        return API.formatAmountString(amount);
     }
 
     @Override

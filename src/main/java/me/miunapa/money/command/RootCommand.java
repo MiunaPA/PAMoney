@@ -21,7 +21,7 @@ public class RootCommand implements CommandExecutor {
                 if (sender instanceof Player) {
                     getBalance(sender, ((Player) sender).getName());
                 } else {
-                    API.sendMessage(sender, "args >1 null console");
+                    API.sendMessage(sender, "&c非玩家無法查詢自己的餘額");
                 }
             } else {
                 SubCommand sub = getCommand(args[0]);
@@ -31,7 +31,7 @@ public class RootCommand implements CommandExecutor {
                     if (args.length == 1) {
                         getBalance(sender, args[0]);
                     } else {
-                        API.sendMessage(sender, "args >1 null");
+                        sendHelpMessage(sender);
                     }
                 }
             }
@@ -48,16 +48,23 @@ public class RootCommand implements CommandExecutor {
         return null;
     }
 
+    void sendHelpMessage(CommandSender sender) {
+        for (SubCommand command : commands) {
+            API.sendMessage(sender, command.getHelpMessage());
+        }
+    }
+
     public RootCommand() {
         Bukkit.getPluginCommand("money").setExecutor(this);
         commands = new ArrayList<SubCommand>();
-        commands.add(new Plus());
+        commands.add(new Grant());
+        commands.add(new Deduct());
     }
 
     void getBalance(CommandSender sender, String name) {
         if (API.hasBalanceByName(name)) {
             Double d = API.getBalanceByName(name);
-            API.sendMessage(sender, "&e" + name + " &7目前有 &c" + API.formatAmount(d) + " &7元");
+            API.sendMessage(sender, "&e" + name + " &7目前有 &c" + API.formatAmountString(d) + " &7元");
         } else {
             API.sendMessage(sender, "&d此帳號不存在");
         }
