@@ -1,11 +1,13 @@
 package me.miunapa.money.database;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import me.miunapa.money.Account;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
@@ -55,15 +57,19 @@ public class API {
         db.initData();
     }
 
+    public static void sendMessage(CommandSender sender, String message, boolean noPrefix) {
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+
     public static void sendMessage(CommandSender sender, String message) {
         sender.sendMessage(prefix + ChatColor.translateAlternateColorCodes('&', message));
     }
 
-    public static Double getBalanceByName(String name) {
+    public static double getBalanceByName(String name) {
         return db.getBalanceByName(name);
     }
 
-    public static Double getBalanceByUuid(String uuid) {
+    public static double getBalanceByUuid(String uuid) {
         return db.getBalanceByUuid(uuid);
     }
 
@@ -88,22 +94,22 @@ public class API {
         return df.format(amount);
     }
 
-    public static double formatAmountDouble(double amount) {
+    public static double formatAmountdouble(double amount) {
         DecimalFormat df = new DecimalFormat("##.#");
         return Double.parseDouble(df.format(amount));
     }
 
-    public static void withdraw(String name, Double lessAmount) {
-        Double d = getBalanceByName(name);
+    public static void withdraw(String name, double lessAmount) {
+        double d = getBalanceByName(name);
         setBalanceByName(name, d - lessAmount);
     }
 
-    public static void deposit(String name, Double plusAmount) {
-        Double d = getBalanceByName(name);
+    public static void deposit(String name, double plusAmount) {
+        double d = getBalanceByName(name);
         setBalanceByName(name, d + plusAmount);
     }
 
-    public static boolean hasAmountByName(String name, Double amount) {
+    public static boolean hasAmountByName(String name, double amount) {
         if (getBalanceByName(name) >= amount) {
             return true;
         } else {
@@ -111,11 +117,15 @@ public class API {
         }
     }
 
-    public static boolean hasAmountByUuid(String uuid, Double amount) {
+    public static boolean hasAmountByUuid(String uuid, double amount) {
         if (getBalanceByUuid(uuid) >= amount) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public static List<Account> getTop(int start, int count) {
+        return db.getTop(start, count);
     }
 }

@@ -153,7 +153,7 @@ public class VaultHandler implements Economy {
         if (!API.hasBalanceByName(playerName)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "找不到此帳號");
         } else {
-            Double d = API.getBalanceByName(playerName);
+            double d = API.getBalanceByName(playerName);
             if (has(playerName, amount)) {
                 API.withdraw(playerName, amount);
                 return new EconomyResponse(amount, d - amount, ResponseType.SUCCESS, "");
@@ -190,8 +190,8 @@ public class VaultHandler implements Economy {
         if (!API.hasBalanceByName(playerName)) {
             return new EconomyResponse(0, 0, ResponseType.FAILURE, "找不到此帳號");
         } else {
-            Double limit = config.getDouble("limit_money");
-            Double d = API.getBalanceByName(playerName);
+            double limit = config.getDouble("limit_money");
+            double d = API.getBalanceByName(playerName);
             if ((d + amount) <= limit) {
                 API.deposit(playerName, amount);
                 return new EconomyResponse(amount, d + amount, ResponseType.SUCCESS, "");

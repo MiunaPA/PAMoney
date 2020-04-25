@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -14,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
+import me.miunapa.money.Account;
 import me.miunapa.money.Main;
 
 public class MySQL implements Listener, Database {
@@ -23,7 +26,7 @@ public class MySQL implements Listener, Database {
     Main plugin = Main.getPlugin(Main.class);
     FileConfiguration config = plugin.getConfig();
     boolean setupStatus = false;
-    Double initMoney = config.getDouble("init_money");
+    double initMoney = config.getDouble("init_money");
 
     public MySQL() {
         host = config.getString("MySQL.connect.host");
@@ -223,4 +226,24 @@ public class MySQL implements Listener, Database {
             e.printStackTrace();
         }
     }
+
+    public List<Account> getTop(int start, int count) {
+        try {
+            PreparedStatement psSelect = connection.prepareStatement("SELECT * FROM " + database
+                    + ".pamoney ORDER BY balance DESC LIMIT " + start + "," + count + ";");
+            ResultSet result = psSelect.executeQuery();
+            List<Account> resultList = new ArrayList<Account>();
+            while (result.next()) {
+                String uuid = result.getString("uuid");
+                String name = result.getString("name");
+                double amount = result.getDouble("balance");
+                resultList.add(new Account(uuid, name, amount));
+            }
+            return resultList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

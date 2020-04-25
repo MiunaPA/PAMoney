@@ -18,7 +18,7 @@ public class Deduct extends SubCommand {
         } else {
             String deductName = args[1];
             if (API.hasBalanceByName(deductName)) {
-                Double deductAmount = API.formatAmountDouble(Double.parseDouble(args[2]));
+                double deductAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
                 if (API.hasAmountByName(deductName, deductAmount)) {
                     API.withdraw(deductName, deductAmount);
                     API.sendMessage(sender, "&a已將 &e" + deductName + " &a扣除了 &c" + deductAmount

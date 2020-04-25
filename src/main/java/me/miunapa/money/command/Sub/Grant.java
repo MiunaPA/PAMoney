@@ -19,7 +19,7 @@ public class Grant extends SubCommand {
         } else {
             String grantName = args[1];
             if (API.hasBalanceByName(grantName)) {
-                Double grantAmount = API.formatAmountDouble(Double.parseDouble(args[2]));
+                double grantAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
                 if ((API.getBalanceByName(grantName) + grantAmount) < API.getConfig()
                         .getDouble("limit_money")) {
                     API.deposit(grantName, grantAmount);
