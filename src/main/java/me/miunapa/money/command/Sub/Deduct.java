@@ -18,13 +18,19 @@ public class Deduct extends SubCommand {
         } else {
             String deductName = args[1];
             if (API.hasBalanceByName(deductName)) {
-                double deductAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
-                if (API.hasAmountByName(deductName, deductAmount)) {
-                    API.withdraw(deductName, deductAmount);
-                    API.sendMessage(sender, "&a已將 &e" + deductName + " &a扣除了 &c" + deductAmount
-                            + " &a元 &7(&2目前有 &c" + API.getBalanceByName(deductName) + " &2元&7)");
-                } else {
-                    API.sendMessage(sender, "&e" + deductName + "&d 的金額不足 無法執行");
+                try {
+                    double deductAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
+                    if (API.hasAmountByName(deductName, deductAmount)) {
+                        API.withdraw(deductName, deductAmount);
+                        API.sendMessage(sender,
+                                "&a已將 &e" + deductName + " &a扣除了 &c" + deductAmount
+                                        + " &a元 &7(&2目前有 &c" + API.getBalanceByName(deductName)
+                                        + " &2元&7)");
+                    } else {
+                        API.sendMessage(sender, "&e" + deductName + "&d 的金額不足 無法執行");
+                    }
+                } catch (NumberFormatException e) {
+                    API.sendMessage(sender, "金額必須輸入數字(可有小數點)");
                 }
             } else {
                 API.sendMessage(sender, "&d此帳號不存在");

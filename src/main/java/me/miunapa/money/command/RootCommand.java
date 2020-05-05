@@ -59,6 +59,7 @@ public class RootCommand implements CommandExecutor {
         commands = new ArrayList<SubCommand>();
         commands.add(new Grant());
         commands.add(new Deduct());
+        commands.add(new Set());
         commands.add(new Top());
     }
 
