@@ -99,14 +99,16 @@ public class API {
         return Double.parseDouble(df.format(amount));
     }
 
-    public static void withdraw(String name, double lessAmount) {
+    public static double withdraw(String name, double lessAmount) {
         double d = getBalanceByName(name);
         setBalanceByName(name, d - lessAmount);
+        return d - lessAmount;
     }
 
-    public static void deposit(String name, double plusAmount) {
+    public static double deposit(String name, double plusAmount) {
         double d = getBalanceByName(name);
         setBalanceByName(name, d + plusAmount);
+        return d + plusAmount;
     }
 
     public static boolean hasAmountByName(String name, double amount) {

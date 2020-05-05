@@ -61,12 +61,13 @@ public class RootCommand implements CommandExecutor {
         commands.add(new Deduct());
         commands.add(new Set());
         commands.add(new Top());
+        commands.add(new Pay());
     }
 
     void getBalance(CommandSender sender, String name) {
         if (API.hasBalanceByName(name)) {
             double d = API.getBalanceByName(name);
-            API.sendMessage(sender, "&e" + name + " &7目前有 &c" + API.formatAmountString(d) + " &7元");
+            API.sendMessage(sender, "&b" + name + " &7目前有 &c" + API.formatAmountString(d) + " &7元");
         } else {
             API.sendMessage(sender, "&d此帳號不存在");
         }
