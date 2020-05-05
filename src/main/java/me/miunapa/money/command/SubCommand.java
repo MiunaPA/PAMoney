@@ -1,12 +1,15 @@
 package me.miunapa.money.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 
 public abstract class SubCommand {
     private final String name;
     private final String permission;
     private final String helpMessage;
+    public Plugin plugin = Bukkit.getPluginManager().getPlugin("PAMoney");
 
     public SubCommand(String name, String permission, String helpMessage) {
         this.name = name;
@@ -28,5 +31,4 @@ public abstract class SubCommand {
     public String getHelpMessage() {
         return helpMessage;
     }
-
 }

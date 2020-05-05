@@ -36,6 +36,11 @@ public class Main extends JavaPlugin {
         }
     }
 
+    @Override
+    public void onDisable() {
+        getLogger().info("PAMoney Stop!  Author:MiunaPA");
+    }
+
     void init() {
         setupVault();
         new RootCommand();

@@ -4,12 +4,22 @@ public class Account {
     String uuid;
     String name;
     double amount;
+    int rank;
 
     public Account(String uuid, String name, double amount) {
-        this.uuid=uuid;
-        this.name=name;
+        this.uuid = uuid;
+        this.name = name;
         this.amount = amount;
+        this.rank = 0;
     }
+
+    public Account(String uuid, String name, double amount, int rank) {
+        this.uuid = uuid;
+        this.name = name;
+        this.amount = amount;
+        this.rank = rank;
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -32,5 +42,13 @@ public class Account {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

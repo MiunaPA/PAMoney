@@ -62,15 +62,21 @@ public class MySQL implements Listener, Database {
     }
 
     void createTable() {
-        try {
-            Statement statement = connection.createStatement();
-            String createIdSQL = "CREATE TABLE IF NOT EXISTS " + database + ".pamoney ("
-                    + "uuid CHAR(36) PRIMARY KEY," + "name CHAR(16) NOT NULL," + "balance DOUBLE"
-                    + ");";
-            statement.execute(createIdSQL);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        BukkitRunnable r = new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    Statement statement = connection.createStatement();
+                    String createIdSQL = "CREATE TABLE IF NOT EXISTS " + database + ".pamoney ("
+                            + "uuid CHAR(36) PRIMARY KEY," + "name CHAR(16) NOT NULL,"
+                            + "balance DOUBLE" + ");";
+                    statement.execute(createIdSQL);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        r.runTaskAsynchronously(plugin);
     }
 
     @EventHandler
@@ -200,44 +206,58 @@ public class MySQL implements Listener, Database {
     }
 
     public void setBalanceByName(String name, double balance) {
-        try {
-            if (hasBalanceByName(name)) {
-                PreparedStatement psUpdate = connection.prepareStatement(
-                        "UPDATE " + database + ".pamoney set balance=? where name=?;");
-                psUpdate.setDouble(1, balance);
-                psUpdate.setString(2, name);
-                psUpdate.executeUpdate();
+        BukkitRunnable r = new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    if (hasBalanceByName(name)) {
+                        PreparedStatement psUpdate = connection.prepareStatement(
+                                "UPDATE " + database + ".pamoney set balance=? where name=?;");
+                        psUpdate.setDouble(1, balance);
+                        psUpdate.setString(2, name);
+                        psUpdate.executeUpdate();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        };
+        r.runTaskAsynchronously(plugin);
     }
 
     public void setBalanceByUuid(String uuid, double balance) {
-        try {
-            if (hasBalanceByUuid(uuid)) {
-                PreparedStatement psUpdate = connection.prepareStatement(
-                        "UPDATE " + database + ".pamoney set balance=? where uuid=?;");
-                psUpdate.setDouble(1, balance);
-                psUpdate.setString(2, uuid);
-                psUpdate.executeUpdate();
+        BukkitRunnable r = new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    if (hasBalanceByUuid(uuid)) {
+                        PreparedStatement psUpdate = connection.prepareStatement(
+                                "UPDATE " + database + ".pamoney set balance=? where uuid=?;");
+                        psUpdate.setDouble(1, balance);
+                        psUpdate.setString(2, uuid);
+                        psUpdate.executeUpdate();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        };
+        r.runTaskAsynchronously(plugin);
     }
 
     public List<Account> getTop(int start, int count) {
         try {
-            PreparedStatement psSelect = connection.prepareStatement("SELECT * FROM " + database
-                    + ".pamoney ORDER BY balance DESC LIMIT " + start + "," + count + ";");
+            PreparedStatement psSelect = connection.prepareStatement(
+                    "SELECT uuid,name,balance,RANK() OVER (ORDER BY balance DESC) AS top_rank FROM "
+                            + database + ".pamoney LIMIT " + start + "," + count + ";");
             ResultSet result = psSelect.executeQuery();
             List<Account> resultList = new ArrayList<Account>();
             while (result.next()) {
                 String uuid = result.getString("uuid");
                 String name = result.getString("name");
                 double amount = result.getDouble("balance");
-                resultList.add(new Account(uuid, name, amount));
+                int rank = result.getInt("top_rank");
+                resultList.add(new Account(uuid, name, amount, rank));
             }
             return resultList;
         } catch (SQLException e) {
@@ -245,5 +265,4 @@ public class MySQL implements Listener, Database {
             return null;
         }
     }
-
 }
