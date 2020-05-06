@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
@@ -305,6 +306,20 @@ public class MySQL implements Listener, Database {
     }
 
     public void getRecord(String uuid, int start, int count) {
-
+        try {
+            PreparedStatement psSelect =
+                    connection.prepareStatement("SELECT time,vary,balance,remark FROM " + database
+                            + ".pamoney_record WHERE uuid='?';");
+            psSelect.setString(1, uuid);
+            ResultSet result = psSelect.executeQuery();
+            while (result.next()) {
+                Timestamp timestamp = result.getTimestamp("time");
+                Double vary = result.getDouble("vary");
+                Double balance = result.getDouble("balance");
+                String remark = result.getString("remark");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
