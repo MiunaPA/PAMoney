@@ -29,6 +29,8 @@ public class RootCommand implements CommandExecutor {
                     if (sender instanceof Player) {
                         if (((Player) sender).hasPermission(sub.getPermission())) {
                             sub.onCommand(sender, command, label, args);
+                        } else {
+                            API.sendMessage(sender, "&c你沒有權限使用此指令");
                         }
                     } else {
                         sub.onCommand(sender, command, label, args);
