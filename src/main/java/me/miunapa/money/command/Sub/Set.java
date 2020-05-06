@@ -9,7 +9,7 @@ import net.md_5.bungee.api.ChatColor;
 public class Set extends SubCommand {
     public Set() {
         super("set", "pamoney.set",
-                ChatColor.GOLD + "/money set <ID> <amount> " + ChatColor.GRAY + "- 設定他人的金錢");
+                ChatColor.RED + "/money set <ID> <amount> " + ChatColor.GRAY + "- 設定他人的金錢");
     }
 
     public boolean onCommand(CommandSender sender, Command commang, String label, String[] args) {

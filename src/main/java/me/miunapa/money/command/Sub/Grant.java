@@ -10,7 +10,7 @@ public class Grant extends SubCommand {
 
     public Grant() {
         super("grant", "pamoney.grant",
-                ChatColor.GOLD + "/money grant <ID> <amount> " + ChatColor.GRAY + "- 增加他人的金錢");
+                ChatColor.RED + "/money grant <ID> <amount> " + ChatColor.GRAY + "- 增加他人的金錢");
     }
 
     public boolean onCommand(CommandSender sender, Command commang, String label, String[] args) {

@@ -8,6 +8,7 @@ public interface Database {
 
     boolean getSetupStatus();
 
+    // 金錢
     Double getBalanceByName(String name);
 
     Double getBalanceByUuid(String uuid);
@@ -21,4 +22,10 @@ public interface Database {
     boolean hasBalanceByUuid(String uuid);
 
     List<Account> getTop(int start, int count);
+
+    // 交易紀錄資料庫
+    void addRecord(String uuid, double vary, double balance);
+
+    // 工具
+    String getUuidByName(String name);
 }

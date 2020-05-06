@@ -12,7 +12,7 @@ import me.miunapa.money.command.Sub.*;
 import me.miunapa.money.database.API;
 
 public class RootCommand implements CommandExecutor {
-    List<SubCommand> commands;
+    static List<SubCommand> commands;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -26,7 +26,13 @@ public class RootCommand implements CommandExecutor {
             } else {
                 SubCommand sub = getCommand(args[0]);
                 if (sub != null) {
-                    sub.onCommand(sender, command, label, args);
+                    if (sender instanceof Player) {
+                        if (((Player) sender).hasPermission(sub.getPermission())) {
+                            sub.onCommand(sender, command, label, args);
+                        }
+                    } else {
+                        sub.onCommand(sender, command, label, args);
+                    }
                 } else {
                     if (args.length == 1) {
                         getBalance(sender, args[0]);
@@ -48,9 +54,15 @@ public class RootCommand implements CommandExecutor {
         return null;
     }
 
-    void sendHelpMessage(CommandSender sender) {
+    public static void sendHelpMessage(CommandSender sender) {
         for (SubCommand command : commands) {
-            API.sendMessage(sender, command.getHelpMessage());
+            if (sender instanceof Player) {
+                if (((Player) sender).hasPermission(command.getPermission())) {
+                    API.sendMessage(sender, command.getHelpMessage());
+                }
+            } else {
+                API.sendMessage(sender, command.getHelpMessage());
+            }
         }
     }
 
@@ -62,6 +74,7 @@ public class RootCommand implements CommandExecutor {
         commands.add(new Set());
         commands.add(new Top());
         commands.add(new Pay());
+        commands.add(new Help());
     }
 
     void getBalance(CommandSender sender, String name) {

@@ -11,7 +11,7 @@ import net.md_5.bungee.api.ChatColor;
 public class Top extends SubCommand {
     public Top() {
         super("top", "pamoney.top",
-                ChatColor.GOLD + "/money top [起始名次]" + ChatColor.GRAY + "- 顯示金錢排行榜(以起始名次向下顯示15筆)");
+                ChatColor.RED + "/money top [起始名次]" + ChatColor.GRAY + " - 顯示金錢排行榜(以起始名次向下顯示15筆)");
     }
 
     public boolean onCommand(CommandSender sender, Command commang, String label, String[] args) {

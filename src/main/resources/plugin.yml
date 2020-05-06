@@ -12,7 +12,42 @@ commands:
     permission: pamoney.user
 
 permissions:
+  pamoney.*:
+    description: 關於PA-Money的所有權限
+    childred:
+      pamoney.admin: true
+      pamoney.user: true
+
+  pamoney.admin:
+    description: 管理員能用的指令
+    children:
+      pamoney.grant: true
+      pamoney.deduct: true
+      pamoney.set: true
   pamoney.user:
-    default: true
-  pamoney.op:
+    description: 玩家能用的指令
+    children:
+      pamoney.help: true
+      pamoney.pay: true
+      pamoney.top: true
+
+  pamoney.grant:
+    description: 增加餘額
     default: op
+  pamoney.deduct:
+    description: 減少餘額
+    default: op
+  pamoney.set:
+    description: 設定餘額
+    default: op
+
+  pamoney.help:
+    description: 幫助
+    default: true
+  pamoney.pay:
+    description: 給別人錢
+    default: true
+  pamoney.top:
+    description: 查看排行榜
+    default: true
+    

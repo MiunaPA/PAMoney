@@ -74,6 +74,17 @@ public class MySQL implements Listener, Database {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                try {
+                    Statement statement = connection.createStatement();
+                    String createRecordSQL =
+                            "CREATE TABLE IF NOT EXISTS " + database + ".pamoney_record ("
+                                    + "time timestamp PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,"
+                                    + "uuid CHAR(36) NOT NULL," + "vary DOUBLE," + "balance DOUBLE,"
+                                    + "FOREIGN KEY(uuid) REFERENCES pamoney(uuid));";
+                    statement.execute(createRecordSQL);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         };
         r.runTaskAsynchronously(plugin);
@@ -129,6 +140,10 @@ public class MySQL implements Listener, Database {
 
     public boolean getSetupStatus() {
         return setupStatus;
+    }
+
+    public String getUuidByName(String name) {
+        return null;
     }
 
     public boolean hasBalanceByName(String name) {
@@ -264,5 +279,9 @@ public class MySQL implements Listener, Database {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void addRecord(String uuid, double vary, double balance) {
+
     }
 }

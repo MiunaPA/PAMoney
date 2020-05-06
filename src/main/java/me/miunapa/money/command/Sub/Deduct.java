@@ -9,7 +9,7 @@ import net.md_5.bungee.api.ChatColor;
 public class Deduct extends SubCommand {
     public Deduct() {
         super("deduct", "pamoney.deduct",
-                ChatColor.GOLD + "/money deduct <ID> <amount> " + ChatColor.GRAY + "- 扣除他人的金錢");
+                ChatColor.RED + "/money deduct <ID> <amount> " + ChatColor.GRAY + "- 扣除他人的金錢");
     }
 
     public boolean onCommand(CommandSender sender, Command commang, String label, String[] args) {

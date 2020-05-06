@@ -10,7 +10,7 @@ import net.md_5.bungee.api.ChatColor;
 public class Pay extends SubCommand {
     public Pay() {
         super("pay", "pamoney.pay",
-                ChatColor.GOLD + "/money pay <ID> <amount> " + ChatColor.GRAY + "- 給別人錢");
+                ChatColor.RED + "/money pay <ID> <amount> " + ChatColor.GRAY + "- 給別人錢");
     }
 
     public boolean onCommand(CommandSender sender, Command commang, String label, String[] args) {
