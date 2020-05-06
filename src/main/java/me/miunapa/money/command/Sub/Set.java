@@ -25,8 +25,19 @@ public class Set extends SubCommand {
         try {
             double setAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
             if (setAmount < API.getConfig().getDouble("limit_money")) {
-                API.setBalanceByName(setName, setAmount);
-                API.sendMessage(sender, "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元");
+                double originalAmount = API.getBalanceByName(setName);
+                if (originalAmount > setAmount) {
+                    API.withdraw(setName, originalAmount - setAmount);
+                    API.sendMessage(sender,
+                            "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7(扣除)");
+                } else if (originalAmount < setAmount) {
+                    API.deposit(setName, originalAmount + setAmount);
+                    API.sendMessage(sender,
+                            "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7(增加)");
+                } else {
+                    API.sendMessage(sender,
+                            "&b" + setName + " 的餘額已經是  &c" + setAmount + " &a元&7(不更動)");
+                }
             } else {
                 API.sendMessage(sender, "&b" + setName + "&d 設定後的錢會超過可擁有的上限 無法執行");
             }

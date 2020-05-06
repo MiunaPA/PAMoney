@@ -69,18 +69,17 @@ public class MySQL implements Listener, Database {
                     Statement statement = connection.createStatement();
                     String createIdSQL = "CREATE TABLE IF NOT EXISTS " + database + ".pamoney ("
                             + "uuid CHAR(36) PRIMARY KEY," + "name CHAR(16) NOT NULL,"
-                            + "balance DOUBLE" + ");";
+                            + "balance DOUBLE);";
                     statement.execute(createIdSQL);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 try {
                     Statement statement = connection.createStatement();
-                    String createRecordSQL =
-                            "CREATE TABLE IF NOT EXISTS " + database + ".pamoney_record ("
-                                    + "time timestamp PRIMARY KEY DEFAULT CURRENT_TIMESTAMP,"
-                                    + "uuid CHAR(36) NOT NULL," + "vary DOUBLE," + "balance DOUBLE,"
-                                    + "FOREIGN KEY(uuid) REFERENCES pamoney(uuid));";
+                    String createRecordSQL = "CREATE TABLE IF NOT EXISTS " + database
+                            + ".pamoney_record (" + "time timestamp(3) DEFAULT NOW(3),"
+                            + "uuid CHAR(36) NOT NULL," + "vary DOUBLE," + "balance DOUBLE,"
+                            + "FOREIGN KEY(uuid) REFERENCES pamoney(uuid));";
                     statement.execute(createRecordSQL);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -143,7 +142,21 @@ public class MySQL implements Listener, Database {
     }
 
     public String getUuidByName(String name) {
-        return null;
+        if (hasBalanceByName(name)) {
+            try {
+                PreparedStatement psSelect = connection.prepareStatement(
+                        "SELECT uuid FROM " + database + ".pamoney where name = ?;");
+                psSelect.setString(1, name);
+                ResultSet result = psSelect.executeQuery();
+                result.next();
+                return result.getString("uuid");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     public boolean hasBalanceByName(String name) {
@@ -221,43 +234,31 @@ public class MySQL implements Listener, Database {
     }
 
     public void setBalanceByName(String name, double balance) {
-        BukkitRunnable r = new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    if (hasBalanceByName(name)) {
-                        PreparedStatement psUpdate = connection.prepareStatement(
-                                "UPDATE " + database + ".pamoney set balance=? where name=?;");
-                        psUpdate.setDouble(1, balance);
-                        psUpdate.setString(2, name);
-                        psUpdate.executeUpdate();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        try {
+            if (hasBalanceByName(name)) {
+                PreparedStatement psUpdate = connection.prepareStatement(
+                        "UPDATE " + database + ".pamoney set balance=? where name=?;");
+                psUpdate.setDouble(1, balance);
+                psUpdate.setString(2, name);
+                psUpdate.executeUpdate();
             }
-        };
-        r.runTaskAsynchronously(plugin);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setBalanceByUuid(String uuid, double balance) {
-        BukkitRunnable r = new BukkitRunnable() {
-            @Override
-            public void run() {
-                try {
-                    if (hasBalanceByUuid(uuid)) {
-                        PreparedStatement psUpdate = connection.prepareStatement(
-                                "UPDATE " + database + ".pamoney set balance=? where uuid=?;");
-                        psUpdate.setDouble(1, balance);
-                        psUpdate.setString(2, uuid);
-                        psUpdate.executeUpdate();
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        try {
+            if (hasBalanceByUuid(uuid)) {
+                PreparedStatement psUpdate = connection.prepareStatement(
+                        "UPDATE " + database + ".pamoney set balance=? where uuid=?;");
+                psUpdate.setDouble(1, balance);
+                psUpdate.setString(2, uuid);
+                psUpdate.executeUpdate();
             }
-        };
-        r.runTaskAsynchronously(plugin);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Account> getTop(int start, int count) {
@@ -282,6 +283,21 @@ public class MySQL implements Listener, Database {
     }
 
     public void addRecord(String uuid, double vary, double balance) {
-
+        BukkitRunnable r = new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    PreparedStatement psInsert = connection.prepareStatement("INSERT INTO "
+                            + database + ".pamoney_record (uuid, vary, balance) VALUES (?, ?, ?);");
+                    psInsert.setString(1, uuid);
+                    psInsert.setDouble(2, vary);
+                    psInsert.setDouble(3, balance);
+                    psInsert.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        r.runTaskAsynchronously(plugin);
     }
 }
