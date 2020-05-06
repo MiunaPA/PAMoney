@@ -4,9 +4,13 @@ import java.util.List;
 import me.miunapa.money.object.Account;
 
 public interface Database {
+    // 資料庫初始化
     void initData();
 
     boolean getSetupStatus();
+
+    // 工具
+    String getUuidByName(String name);
 
     // 金錢
     Double getBalanceByName(String name);
@@ -24,8 +28,5 @@ public interface Database {
     List<Account> getTop(int start, int count);
 
     // 交易紀錄資料庫
-    void addRecord(String uuid, double vary, double balance);
-
-    // 工具
-    String getUuidByName(String name);
+    void addRecord(String uuid, double vary, double balance, String remark);
 }

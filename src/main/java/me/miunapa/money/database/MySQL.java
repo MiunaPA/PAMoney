@@ -79,6 +79,7 @@ public class MySQL implements Listener, Database {
                     String createRecordSQL = "CREATE TABLE IF NOT EXISTS " + database
                             + ".pamoney_record (" + "time timestamp(3) DEFAULT NOW(3),"
                             + "uuid CHAR(36) NOT NULL," + "vary DOUBLE," + "balance DOUBLE,"
+                            + "remark VARCHAR(64),"
                             + "FOREIGN KEY(uuid) REFERENCES pamoney(uuid));";
                     statement.execute(createRecordSQL);
                 } catch (SQLException e) {
@@ -282,16 +283,18 @@ public class MySQL implements Listener, Database {
         }
     }
 
-    public void addRecord(String uuid, double vary, double balance) {
+    public void addRecord(String uuid, double vary, double balance, String remark) {
         BukkitRunnable r = new BukkitRunnable() {
             @Override
             public void run() {
                 try {
                     PreparedStatement psInsert = connection.prepareStatement("INSERT INTO "
-                            + database + ".pamoney_record (uuid, vary, balance) VALUES (?, ?, ?);");
+                            + database
+                            + ".pamoney_record (uuid, vary, balance,remark) VALUES (?, ?, ?,?);");
                     psInsert.setString(1, uuid);
                     psInsert.setDouble(2, vary);
                     psInsert.setDouble(3, balance);
+                    psInsert.setString(4, remark);
                     psInsert.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -299,5 +302,9 @@ public class MySQL implements Listener, Database {
             }
         };
         r.runTaskAsynchronously(plugin);
+    }
+
+    public void getRecord(String uuid, int start, int count) {
+
     }
 }

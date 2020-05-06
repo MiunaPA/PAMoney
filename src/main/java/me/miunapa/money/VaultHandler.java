@@ -155,7 +155,7 @@ public class VaultHandler implements Economy {
         } else {
             double d = API.getBalanceByName(playerName);
             if (has(playerName, amount)) {
-                API.withdraw(playerName, amount);
+                API.withdraw(playerName, amount, "Vault 提款交易");
                 return new EconomyResponse(amount, d - amount, ResponseType.SUCCESS, "");
             } else {
                 return new EconomyResponse(0, d, ResponseType.FAILURE, "金額不足");
@@ -193,7 +193,7 @@ public class VaultHandler implements Economy {
             double limit = config.getDouble("limit_money");
             double d = API.getBalanceByName(playerName);
             if ((d + amount) <= limit) {
-                API.deposit(playerName, amount);
+                API.deposit(playerName, amount, "Vault 存款交易");
                 return new EconomyResponse(amount, d + amount, ResponseType.SUCCESS, "");
             } else {
                 return new EconomyResponse(0, d, ResponseType.FAILURE, "金額超過上限");

@@ -73,20 +73,21 @@ public class API {
         return db.getBalanceByUuid(uuid);
     }
 
-    public static double setBalanceByName(String name, double vary) {
-        return setBalance(getUuidByName(name), vary);
+    public static double setBalanceByName(String name, double vary, String remark) {
+        return setBalance(getUuidByName(name), vary, remark);
     }
 
     /**
      * 調整玩家的金錢(與資料庫交互)
      * 
-     * @param uuid 玩家的UUID
-     * @param vary 玩家要修改的金錢量
+     * @param uuid   玩家的UUID
+     * @param vary   玩家要修改的金錢量
+     * @param remark 備註
      */
-    static double setBalance(String uuid, double vary) {
+    static double setBalance(String uuid, double vary, String remark) {
         double adjustAmount = getBalanceByUuid(uuid) + vary;
         db.setBalanceByUuid(uuid, adjustAmount);
-        db.addRecord(uuid, vary, adjustAmount);
+        db.addRecord(uuid, vary, adjustAmount, remark);
         return adjustAmount;
     }
 
@@ -108,6 +109,7 @@ public class API {
         return Double.parseDouble(df.format(amount));
     }
 
+
     /**
      * 減少錢(提款)
      * 
@@ -115,7 +117,18 @@ public class API {
      * @param lessAmount 要扣除多少錢至該玩家
      */
     public static double withdraw(String name, double lessAmount) {
-        return setBalanceByName(name, -lessAmount);
+        return withdraw(name, lessAmount, "");
+    }
+
+    /**
+     * 減少錢(提款)
+     * 
+     * @param name       玩家的Name
+     * @param lessAmount 要扣除多少錢至該玩家
+     * @param remark     備註
+     */
+    public static double withdraw(String name, double lessAmount, String remark) {
+        return setBalanceByName(name, -lessAmount, remark);
     }
 
     /**
@@ -123,9 +136,22 @@ public class API {
      * 
      * @param name       玩家的Name
      * @param plusAmount 要增加多少錢至該玩家
+     * 
      */
     public static double deposit(String name, double plusAmount) {
-        return setBalanceByName(name, plusAmount);
+        return deposit(name, plusAmount, "");
+    }
+
+    /**
+     * 增加錢(存款)
+     * 
+     * @param name       玩家的Name
+     * @param plusAmount 要增加多少錢至該玩家
+     * @param remark     備註
+     * 
+     */
+    public static double deposit(String name, double plusAmount, String remark) {
+        return setBalanceByName(name, plusAmount, remark);
     }
 
     public static boolean hasAmountByName(String name, double amount) {

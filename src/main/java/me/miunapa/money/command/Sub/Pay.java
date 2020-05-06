@@ -35,8 +35,8 @@ public class Pay extends SubCommand {
             double payAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
             if ((API.getBalanceByName(payName) + payAmount) < API.getConfig()
                     .getDouble("limit_money")) {
-                API.withdraw(sender.getName(), payAmount);
-                API.deposit(payName, payAmount);
+                API.withdraw(sender.getName(), payAmount, "轉帳給:" + payName);
+                API.deposit(payName, payAmount, "收到轉帳:" + sender.getName());
                 API.sendMessage(sender, "&a已將 &c" + payAmount + " &a元 轉帳給 &b" + payName);
             } else {
                 API.sendMessage(sender, "&b" + payName + "&d 擁有的錢會超過上限 無法執行");

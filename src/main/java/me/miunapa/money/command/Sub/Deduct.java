@@ -25,7 +25,7 @@ public class Deduct extends SubCommand {
         try {
             double deductAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
             if (API.hasAmountByName(deductName, deductAmount)) {
-                double resultAmount = API.withdraw(deductName, deductAmount);
+                double resultAmount = API.withdraw(deductName, deductAmount, "管理員扣除");
                 API.sendMessage(sender, "&a已將 &b" + deductName + " &a扣除了 &c" + deductAmount
                         + " &a元 &7(&2目前有 &c" + resultAmount + " &2元&7)");
             } else {

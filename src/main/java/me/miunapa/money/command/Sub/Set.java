@@ -27,11 +27,11 @@ public class Set extends SubCommand {
             if (setAmount < API.getConfig().getDouble("limit_money")) {
                 double originalAmount = API.getBalanceByName(setName);
                 if (originalAmount > setAmount) {
-                    API.withdraw(setName, originalAmount - setAmount);
+                    API.withdraw(setName, originalAmount - setAmount, "管理員設定(扣除)");
                     API.sendMessage(sender,
                             "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7(扣除)");
                 } else if (originalAmount < setAmount) {
-                    API.deposit(setName, originalAmount + setAmount);
+                    API.deposit(setName, originalAmount + setAmount, "管理員設定(增加)");
                     API.sendMessage(sender,
                             "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7(增加)");
                 } else {

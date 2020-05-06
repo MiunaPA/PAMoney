@@ -27,7 +27,7 @@ public class Grant extends SubCommand {
             double grantAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
             if ((API.getBalanceByName(grantName) + grantAmount) < API.getConfig()
                     .getDouble("limit_money")) {
-                double resultAmount = API.deposit(grantName, grantAmount);
+                double resultAmount = API.deposit(grantName, grantAmount, "管理員增加");
                 API.sendMessage(sender, "&a已將 &b" + grantName + " &a增加了 &c" + grantAmount
                         + " &a元 &7(&2目前有 &c" + resultAmount + " &2元&7)");
             } else {
