@@ -1,7 +1,7 @@
 package me.miunapa.money.database;
 
 import java.util.List;
-import me.miunapa.money.Account;
+import me.miunapa.money.object.Account;
 
 public interface Database {
     void initData();

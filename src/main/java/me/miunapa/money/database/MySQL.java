@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.miunapa.money.Account;
+import me.miunapa.money.object.Account;
 import me.miunapa.money.Main;
 
 public class MySQL implements Listener, Database {

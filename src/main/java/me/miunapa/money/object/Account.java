@@ -1,4 +1,4 @@
-package me.miunapa.money;
+package me.miunapa.money.object;
 
 public class Account {
     String uuid;
