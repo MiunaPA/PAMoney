@@ -79,7 +79,7 @@ public class Lookup extends SubCommand {
                 varyText = "&f" + record.getVary();
             }
             String text = "&3" + timestampToString(record.getTimestamp()) + " " + varyText
-                    + " &7 --> &e" + record.getBalance() + " &7(" + record.getRemark() + ")";
+                    + " &7 -->  &e" + record.getBalance() + " &7(" + record.getRemark() + ")";
             API.sendMessage(sender, text, true);
         }
     }

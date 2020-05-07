@@ -37,7 +37,6 @@ public class Set extends SubCommand {
                     API.sendMessage(sender,
                             "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7(增加)");
                 }
-
             } else {
                 API.sendMessage(sender, "&b" + setName + " 的餘額已經是 &c" + setAmount + " &a元&7(不更動)");
             }
