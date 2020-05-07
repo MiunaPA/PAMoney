@@ -162,6 +162,24 @@ public class MySQL implements Listener, Database {
         }
     }
 
+    public String getNameByUuid(String uuid) {
+        if (hasBalanceByUuid(uuid)) {
+            try {
+                PreparedStatement psSelect = connection.prepareStatement(
+                        "SELECT name FROM " + database + ".pamoney where uuid = ?;");
+                psSelect.setString(1, uuid);
+                ResultSet result = psSelect.executeQuery();
+                result.next();
+                return result.getString("name");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
     public boolean hasBalanceByName(String name) {
         try {
             PreparedStatement psSelectCount = connection.prepareStatement(
@@ -292,7 +310,7 @@ public class MySQL implements Listener, Database {
                 try {
                     PreparedStatement psInsert = connection.prepareStatement("INSERT INTO "
                             + database
-                            + ".pamoney_record (uuid, vary, balance,remark) VALUES (?, ?, ?,?);");
+                            + ".pamoney_record (uuid, vary, balance,remark) VALUES (?, ?, ?, ?);");
                     psInsert.setString(1, uuid);
                     psInsert.setDouble(2, vary);
                     psInsert.setDouble(3, balance);
@@ -306,15 +324,11 @@ public class MySQL implements Listener, Database {
         r.runTaskAsynchronously(plugin);
     }
 
-    public List<Record> getRecord(String uuid, int count) {
-        return getRecord(uuid, 0, count);
-    }
-
     public List<Record> getRecord(String uuid, int start, int count) {
         try {
             PreparedStatement psSelect =
                     connection.prepareStatement("SELECT time,vary,balance,remark FROM " + database
-                            + ".pamoney_record WHERE uuid='?' ORDER BY time DESC LIMIT ?,?;");
+                            + ".pamoney_record WHERE uuid=? ORDER BY time DESC LIMIT ?,?;");
             psSelect.setString(1, uuid);
             psSelect.setInt(2, start);
             psSelect.setInt(3, count);

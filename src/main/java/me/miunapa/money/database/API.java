@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import me.miunapa.money.object.Account;
+import me.miunapa.money.object.Record;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
@@ -176,5 +177,13 @@ public class API {
 
     public static String getUuidByName(String name) {
         return db.getUuidByName(name);
+    }
+
+    public static String getNameByUuid(String uuid) {
+        return db.getNameByUuid(uuid);
+    }
+
+    public static List<Record> getRecordList(String uuid, int start, int count) {
+        return db.getRecord(uuid, start, count);
     }
 }

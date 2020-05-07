@@ -19,7 +19,7 @@ public class Deduct extends SubCommand {
         }
         String deductName = args[1];
         if (!API.hasBalanceByName(deductName)) {
-            API.sendMessage(sender, "&d此帳號不存在");
+            API.sendMessage(sender, "&d此帳號不存在 無法扣除錢");
             return false;
         }
         try {

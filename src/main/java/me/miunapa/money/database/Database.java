@@ -13,6 +13,8 @@ public interface Database {
     // 工具
     String getUuidByName(String name);
 
+    String getNameByUuid(String uuid);
+
     // 金錢
     Double getBalanceByName(String name);
 
@@ -30,8 +32,6 @@ public interface Database {
 
     // 交易紀錄資料庫
     void addRecord(String uuid, double vary, double balance, String remark);
-
-    List<Record> getRecord(String uuid, int count);
 
     List<Record> getRecord(String uuid, int start, int count);
 }

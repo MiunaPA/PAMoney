@@ -77,6 +77,7 @@ public class RootCommand implements CommandExecutor {
         commands.add(new Top());
         commands.add(new Pay());
         commands.add(new Help());
+        commands.add(new Lookup());
     }
 
     void getBalance(CommandSender sender, String name) {
@@ -84,7 +85,7 @@ public class RootCommand implements CommandExecutor {
             double d = API.getBalanceByName(name);
             API.sendMessage(sender, "&b" + name + " &7目前有 &c" + API.formatAmountString(d) + " &7元");
         } else {
-            API.sendMessage(sender, "&d此帳號不存在");
+            API.sendMessage(sender, "&d此帳號不存在 無法查詢餘額");
         }
     }
 }

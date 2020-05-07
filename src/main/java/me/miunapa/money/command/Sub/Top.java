@@ -18,6 +18,10 @@ public class Top extends SubCommand {
         if (args.length == 1) {
             List<Account> accountList = API.getTop(0, 15);
             API.sendMessage(sender, "&7=============== &3金錢排行榜 &7===============", true);
+            if (accountList.size() == 0) {
+                API.sendMessage(sender, "&d查詢不到任何人(可能是起始值太大)", true);
+                return false;
+            }
             for (Account account : accountList) {
                 if (account.getRank() < 10) {
                     API.sendMessage(sender, "&a" + account.getRank() + ".  &b" + account.getName()
@@ -34,6 +38,10 @@ public class Top extends SubCommand {
                 Integer start = Integer.parseInt(args[1]);
                 List<Account> accountList = API.getTop(start - 1, 15);
                 API.sendMessage(sender, "&7=============== &3金錢排行榜 &7===============", true);
+                if (accountList.size() == 0) {
+                    API.sendMessage(sender, "&d查詢不到任何人(可能是起始值太大)", true);
+                    return false;
+                }
                 for (Account account : accountList) {
                     if (account.getRank() < 10) {
                         API.sendMessage(sender,

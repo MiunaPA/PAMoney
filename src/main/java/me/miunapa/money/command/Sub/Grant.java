@@ -20,7 +20,7 @@ public class Grant extends SubCommand {
         }
         String grantName = args[1];
         if (!API.hasBalanceByName(grantName)) {
-            API.sendMessage(sender, "&d此帳號不存在");
+            API.sendMessage(sender, "&d此帳號不存在 無法增加錢");
             return false;
         }
         try {

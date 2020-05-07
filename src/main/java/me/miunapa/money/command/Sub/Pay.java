@@ -28,7 +28,7 @@ public class Pay extends SubCommand {
             return false;
         }
         if (!API.hasBalanceByName(payName)) {
-            API.sendMessage(sender, "&d此帳號不存在");
+            API.sendMessage(sender, "&d此帳號不存在 無法給錢");
             return false;
         }
         try {
