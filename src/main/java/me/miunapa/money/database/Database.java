@@ -2,6 +2,7 @@ package me.miunapa.money.database;
 
 import java.util.List;
 import me.miunapa.money.object.Account;
+import me.miunapa.money.object.Record;
 
 public interface Database {
     // 資料庫初始化
@@ -29,4 +30,8 @@ public interface Database {
 
     // 交易紀錄資料庫
     void addRecord(String uuid, double vary, double balance, String remark);
+
+    List<Record> getRecord(String uuid, int count);
+
+    List<Record> getRecord(String uuid, int start, int count);
 }

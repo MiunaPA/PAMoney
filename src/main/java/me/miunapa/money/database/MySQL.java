@@ -6,8 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.miunapa.money.object.Account;
+import me.miunapa.money.object.Record;
 import me.miunapa.money.Main;
 
 public class MySQL implements Listener, Database {
@@ -305,21 +306,29 @@ public class MySQL implements Listener, Database {
         r.runTaskAsynchronously(plugin);
     }
 
-    public void getRecord(String uuid, int start, int count) {
+    public List<Record> getRecord(String uuid, int count) {
+        return getRecord(uuid, 0, count);
+    }
+
+    public List<Record> getRecord(String uuid, int start, int count) {
         try {
             PreparedStatement psSelect =
                     connection.prepareStatement("SELECT time,vary,balance,remark FROM " + database
-                            + ".pamoney_record WHERE uuid='?';");
+                            + ".pamoney_record WHERE uuid='?' ORDER BY time DESC LIMIT ?,?;");
             psSelect.setString(1, uuid);
+            psSelect.setInt(2, start);
+            psSelect.setInt(3, count);
             ResultSet result = psSelect.executeQuery();
+            List<Record> recordList = new ArrayList<Record>();
             while (result.next()) {
-                Timestamp timestamp = result.getTimestamp("time");
-                Double vary = result.getDouble("vary");
-                Double balance = result.getDouble("balance");
-                String remark = result.getString("remark");
+                recordList.add(new Record(result.getTimestamp("time"), result.getDouble("vary"),
+                        result.getDouble("balance"), result.getString("remark")));
             }
+            Collections.reverse(recordList);
+            return recordList;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }
