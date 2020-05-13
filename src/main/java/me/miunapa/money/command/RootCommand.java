@@ -57,6 +57,7 @@ public class RootCommand implements CommandExecutor {
     }
 
     public static void sendHelpMessage(CommandSender sender) {
+        API.sendMessage(sender, "&7=============== &e金錢插件 指令幫助 &7===============");
         for (SubCommand command : commands) {
             if (sender instanceof Player) {
                 if (((Player) sender).hasPermission(command.getPermission())) {

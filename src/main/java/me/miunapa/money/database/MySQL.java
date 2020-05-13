@@ -286,7 +286,9 @@ public class MySQL implements Listener, Database {
         try {
             PreparedStatement psSelect = connection.prepareStatement(
                     "SELECT uuid,name,balance,RANK() OVER (ORDER BY balance DESC) AS top_rank FROM "
-                            + database + ".pamoney LIMIT " + start + "," + count + ";");
+                            + database + ".pamoney LIMIT ?,?;");
+            psSelect.setInt(1, start);
+            psSelect.setInt(2, count);
             ResultSet result = psSelect.executeQuery();
             List<Account> resultList = new ArrayList<Account>();
             while (result.next()) {
@@ -326,17 +328,18 @@ public class MySQL implements Listener, Database {
 
     public List<Record> getRecord(String uuid, int start, int count) {
         try {
-            PreparedStatement psSelect =
-                    connection.prepareStatement("SELECT time,vary,balance,remark FROM " + database
-                            + ".pamoney_record WHERE uuid=? ORDER BY time DESC LIMIT ?,?;");
+            PreparedStatement psSelect = connection.prepareStatement(
+                    "SELECT time,vary,balance,remark,RANK() OVER (ORDER BY time DESC) AS no FROM "
+                            + database + ".pamoney_record WHERE uuid=? LIMIT ?,?;");
             psSelect.setString(1, uuid);
             psSelect.setInt(2, start);
             psSelect.setInt(3, count);
             ResultSet result = psSelect.executeQuery();
             List<Record> recordList = new ArrayList<Record>();
             while (result.next()) {
-                recordList.add(new Record(result.getTimestamp("time"), result.getDouble("vary"),
-                        result.getDouble("balance"), result.getString("remark")));
+                recordList.add(new Record(result.getInt("no"), result.getTimestamp("time"),
+                        result.getDouble("vary"), result.getDouble("balance"),
+                        result.getString("remark")));
             }
             Collections.reverse(recordList);
             return recordList;

@@ -26,19 +26,19 @@ public class Set extends SubCommand {
             double setAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
             double originalAmount = API.getBalanceByName(setName);
             if (originalAmount > setAmount) {
-                API.withdraw(setName, originalAmount - setAmount, "管理員設定(扣除)");
+                API.withdraw(setName, originalAmount - setAmount, "管理員設定[扣除]");
                 API.sendMessage(sender,
-                        "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7(扣除)");
+                        "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7[(]扣除]");
             } else if (originalAmount < setAmount) {
                 if ((originalAmount + setAmount) >= API.getConfig().getDouble("limit_money")) {
                     API.sendMessage(sender, "&b" + setName + "&d 設定後的錢會超過可擁有的上限 無法執行");
                 } else {
-                    API.deposit(setName, setAmount - originalAmount, "管理員設定(增加)");
+                    API.deposit(setName, setAmount - originalAmount, "管理員設定[增加]");
                     API.sendMessage(sender,
-                            "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7(增加)");
+                            "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7[增加]");
                 }
             } else {
-                API.sendMessage(sender, "&b" + setName + " 的餘額已經是 &c" + setAmount + " &a元&7(不更動)");
+                API.sendMessage(sender, "&b" + setName + " 的餘額已經是 &c" + setAmount + " &a元&7[不更動]");
             }
         } catch (NumberFormatException e) {
             API.sendMessage(sender, "&c金額必須輸入數字(可有小數點)");

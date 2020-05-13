@@ -61,13 +61,16 @@ public class Lookup extends SubCommand {
 
     void searchRecord(CommandSender sender, String uuid, int start) {
         String name = API.getNameByUuid(uuid);
-        List<Record> recordList = API.getRecordList(uuid, start, 15);
+        if (start < 1) {
+            start = 1;
+        }
+        List<Record> recordList = API.getRecordList(uuid, start - 1, 15);
         if (recordList.size() == 0) {
             API.sendMessage(sender, "&c查詢不到記錄(可能是起始值太大)", true);
             return;
         } else {
             API.sendMessage(sender,
-                    "&a查詢 &b" + name + " &a的交易紀錄如下&7(以第&c" + (start + 1) + "&7筆記錄 向前查詢15筆)", true);
+                    "&a查詢 &b" + name + " &a的交易紀錄如下&7(以第&c" + start + "&7筆記錄 向前查詢15筆)", true);
         }
         for (Record record : recordList) {
             String varyText = "";
@@ -78,8 +81,9 @@ public class Lookup extends SubCommand {
             } else {
                 varyText = "&f" + record.getVary();
             }
-            String text = "&3" + timestampToString(record.getTimestamp()) + " " + varyText
-                    + " &7 -->  &e" + record.getBalance() + " &7(" + record.getRemark() + ")";
+            String text = "&7" + record.getNumber() + ". &3"
+                    + timestampToString(record.getTimestamp()) + " " + varyText + " &7 -->  &e"
+                    + record.getBalance() + " &7(" + record.getRemark() + ")";
             API.sendMessage(sender, text, true);
         }
     }
@@ -89,7 +93,6 @@ public class Lookup extends SubCommand {
         DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Taipei"));
         try {
-            // 方法一
             result = sdf.format(timestamp);
             return result;
         } catch (Exception e) {

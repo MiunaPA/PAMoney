@@ -3,19 +3,14 @@ package me.miunapa.money.object;
 import java.sql.Timestamp;
 
 public class Record {
+    int number;
     Timestamp timestamp;
     double vary;
     double balance;
     String remark;
 
-    public Record(Timestamp timestamp, double vary, double balance) {
-        this.timestamp = timestamp;
-        this.vary = vary;
-        this.balance = balance;
-        this.remark = "";
-    }
-
-    public Record(Timestamp timestamp, double vary, double balance, String remark) {
+    public Record(int number, Timestamp timestamp, double vary, double balance, String remark) {
+        this.number = number;
         this.timestamp = timestamp;
         this.vary = vary;
         this.balance = balance;
@@ -52,5 +47,13 @@ public class Record {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 }

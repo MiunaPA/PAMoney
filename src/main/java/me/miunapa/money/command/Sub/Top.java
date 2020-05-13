@@ -36,6 +36,9 @@ public class Top extends SubCommand {
         } else if (args.length == 2) {
             try {
                 Integer start = Integer.parseInt(args[1]);
+                if (start < 1) {
+                    start = 1;
+                }
                 List<Account> accountList = API.getTop(start - 1, 15);
                 API.sendMessage(sender, "&7=============== &3金錢排行榜 &7===============", true);
                 if (accountList.size() == 0) {
