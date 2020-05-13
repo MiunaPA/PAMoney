@@ -186,4 +186,8 @@ public class API {
     public static List<Record> getRecordList(String uuid, int start, int count) {
         return db.getRecord(uuid, start, count);
     }
+
+    public static String getPrefix() {
+        return prefix;
+    }
 }
