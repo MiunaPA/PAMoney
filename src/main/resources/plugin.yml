@@ -1,7 +1,7 @@
 main: me.miunapa.money.Main
 name: PAMoney
 author: MiunaPA
-version: 1.0.0
+version: 1.0.1
 depend: [Vault]
 api-version: 1.15
 
@@ -15,15 +15,20 @@ permissions:
   pamoney.*:
     description: 關於PA-Money的所有權限
     childred:
-      pamoney.admin: true
+      pamoney.op: true
       pamoney.user: true
+      pamoney.admin: true
 
-  pamoney.admin:
-    description: 管理員能用的指令
+  pamoney.op:
+    description: 大管理員能用的指令
     children:
       pamoney.grant: true
       pamoney.deduct: true
       pamoney.set: true
+  pamoney.admin:
+    description: 大管理員能用的指令
+    children:
+      pamoney.lookup: true
   pamoney.user:
     description: 玩家能用的指令
     children:
@@ -50,4 +55,8 @@ permissions:
   pamoney.top:
     description: 查看排行榜
     default: true
+  
+  pamoney.lookup:
+    description: 查看排行榜
+    default: true  
     

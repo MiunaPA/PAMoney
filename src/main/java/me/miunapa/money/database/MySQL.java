@@ -114,8 +114,8 @@ public class MySQL implements Listener, Database {
                         psInsert.setString(1, uuid);
                         psInsert.setString(2, name);
                         psInsert.setDouble(3, 0);
-                        API.deposit(name, initMoney, "新玩家初始化");
                         psInsert.executeUpdate();
+                        API.deposit(name, initMoney, "新玩家初始化");
                     } else {
                         result.beforeFirst();
                         result.next();
