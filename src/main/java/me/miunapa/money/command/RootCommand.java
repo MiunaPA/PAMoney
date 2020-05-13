@@ -7,11 +7,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import me.miunapa.money.command.Sub.*;
 import me.miunapa.money.database.API;
 
-public class RootCommand implements CommandExecutor {
+public class RootCommand implements CommandExecutor, TabCompleter {
     static List<SubCommand> commands;
 
     @Override
@@ -88,5 +89,24 @@ public class RootCommand implements CommandExecutor {
         } else {
             API.sendMessage(sender, "&d此帳號不存在 無法查詢餘額");
         }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias,
+            String[] args) {
+        if (command.getName().equalsIgnoreCase("money") && args.length == 1) {
+            List<String> subList = new ArrayList<String>();
+            for (SubCommand sub : commands) {
+                if (sender instanceof Player) {
+                    if (((Player) sender).hasPermission(sub.getPermission())) {
+                        subList.add(sub.getName());
+                    }
+                } else {
+                    subList.add(sub.getName());
+                }
+            }
+            return subList;
+        }
+        return null;
     }
 }

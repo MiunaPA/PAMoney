@@ -56,9 +56,10 @@ public class Lookup extends SubCommand {
             }
         }
         if (sender instanceof Player) {
-            if (!sender.getName().equals(lookupName)) {
-                if (!sender.hasPermission("pamoney.lookup.other")) {
-                    API.sendMessage(sender, "&c你沒有權限查詢別人的交易紀錄");
+            Player player = (Player) sender;
+            if (!player.getName().equals(lookupName)) {
+                if (!player.hasPermission("pamoney.lookup.other")) {
+                    API.sendMessage(player, "&c你沒有權限查詢別人的交易紀錄");
                     return false;
                 }
             }
