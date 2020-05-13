@@ -139,7 +139,7 @@ public class Pay extends SubCommand {
         API.sendMessage(player, "&a已將 &c" + payAmount + " &a元 轉帳給 &b" + payName);
         if (Bukkit.getPlayer(payName) != null) {
             API.sendMessage(Bukkit.getPlayer(payName),
-                    "&a你收到了 &b" + player.getName() + " &a的 &c" + payAmount + "&a元轉帳");
+                    "&a你收到了 &b" + player.getName() + " &a的 &c" + payAmount + " &a元轉帳");
         }
         payMap.remove(player);
     }
