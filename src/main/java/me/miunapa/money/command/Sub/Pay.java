@@ -18,31 +18,37 @@ public class Pay extends SubCommand {
             API.sendMessage(sender, "&e給錢的指令只有玩家才能使用");
             return false;
         }
+        Player player = (Player) sender;
         if (args.length != 3) {
-            API.sendMessage(sender, this.getHelpMessage());
+            API.sendMessage(player, this.getHelpMessage());
             return false;
         }
         String payName = args[1];
-        if (sender.getName().equals(payName)) {
-            API.sendMessage(sender, "&c不能給自己錢");
+        if (player.getName().equals(payName)) {
+            API.sendMessage(player, "&c不能給自己錢");
             return false;
         }
         if (!API.hasBalanceByName(payName)) {
-            API.sendMessage(sender, "&d此帳號不存在 無法給錢");
+            API.sendMessage(player, "&d此帳號不存在 無法給錢");
             return false;
         }
         try {
+            double payerAmount = API.getBalanceByUuid(player.getUniqueId().toString());
             double payAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
+            if (payerAmount < payAmount) {
+                API.sendMessage(player, "&c你的錢不夠了");
+                return false;
+            }
             if ((API.getBalanceByName(payName) + payAmount) < API.getConfig()
                     .getDouble("limit_money")) {
-                API.withdraw(sender.getName(), payAmount, "轉帳給:" + payName);
-                API.deposit(payName, payAmount, "收到轉帳:" + sender.getName());
-                API.sendMessage(sender, "&a已將 &c" + payAmount + " &a元 轉帳給 &b" + payName);
+                API.withdraw(player.getName(), payAmount, "轉帳給:" + payName);
+                API.deposit(payName, payAmount, "收到轉帳:" + player.getName());
+                API.sendMessage(player, "&a已將 &c" + payAmount + " &a元 轉帳給 &b" + payName);
             } else {
-                API.sendMessage(sender, "&b" + payName + "&d 擁有的錢會超過上限 無法執行");
+                API.sendMessage(player, "&b" + payName + "&d 擁有的錢會超過上限 無法執行");
             }
         } catch (NumberFormatException e) {
-            API.sendMessage(sender, "&c金額必須輸入數字(可有小數點)");
+            API.sendMessage(player, "&c金額必須輸入數字(可有小數點)");
         }
         return false;
     }
