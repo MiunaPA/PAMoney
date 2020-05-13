@@ -1,5 +1,6 @@
 package me.miunapa.money.command.Sub;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -44,6 +45,10 @@ public class Pay extends SubCommand {
                 API.withdraw(player.getName(), payAmount, "轉帳給:" + payName);
                 API.deposit(payName, payAmount, "收到轉帳:" + player.getName());
                 API.sendMessage(player, "&a已將 &c" + payAmount + " &a元 轉帳給 &b" + payName);
+                if (Bukkit.getPlayer(payName) != null) {
+                    API.sendMessage(Bukkit.getPlayer(args[0]),
+                            "&a你收到了 &b" + payName + " &a的 &c" + payAmount + "&a元轉帳");
+                }
             } else {
                 API.sendMessage(player, "&b" + payName + "&d 擁有的錢會超過上限 無法執行");
             }
