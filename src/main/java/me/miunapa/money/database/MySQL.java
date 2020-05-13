@@ -113,19 +113,21 @@ public class MySQL implements Listener, Database {
                                 + database + ".pamoney (uuid, name, balance) VALUES (?, ?, ?);");
                         psInsert.setString(1, uuid);
                         psInsert.setString(2, name);
-                        psInsert.setDouble(3, initMoney);
+                        psInsert.setDouble(3, 0);
+                        API.deposit(name, initMoney, "新玩家初始化");
                         psInsert.executeUpdate();
                     } else {
                         result.beforeFirst();
-                        while (result.next()) {
-                            String sqlName = result.getString("name");
-                            if (!sqlName.equals(name)) {
-                                PreparedStatement psUpdate = connection.prepareStatement(
-                                        "UPDATE " + database + ".pamoney set name=? where uuid=?;");
-                                psUpdate.setString(1, name);
-                                psUpdate.setString(2, uuid);
-                                psUpdate.executeUpdate();
-                            }
+                        result.next();
+                        String sqlName = result.getString("name");
+                        double amount = getBalanceByUuid(uuid);
+                        if (!sqlName.equals(name)) {
+                            PreparedStatement psUpdate = connection.prepareStatement(
+                                    "UPDATE " + database + ".pamoney set name=? where uuid=?;");
+                            addRecord(uuid, 0, amount, "ID更改 " + sqlName + " --> " + name);
+                            psUpdate.setString(1, name);
+                            psUpdate.setString(2, uuid);
+                            psUpdate.executeUpdate();
                         }
                     }
                 } catch (SQLException e) {

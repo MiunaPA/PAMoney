@@ -64,13 +64,13 @@ public class Lookup extends SubCommand {
         if (start < 1) {
             start = 1;
         }
-        List<Record> recordList = API.getRecordList(uuid, start - 1, 15);
+        List<Record> recordList = API.getRecordList(uuid, start - 1, 10);
         if (recordList.size() == 0) {
             API.sendMessage(sender, "&c查詢不到記錄(可能是起始值太大)", true);
             return;
         } else {
             API.sendMessage(sender,
-                    "&a查詢 &b" + name + " &a的交易紀錄如下&7(以第&c" + start + "&7筆記錄 向前查詢15筆)", true);
+                    "&a查詢 &b" + name + " &a的交易紀錄如下&7(以第&c" + start + "&7筆記錄 向前查詢10筆)", true);
         }
         for (Record record : recordList) {
             String varyText = "";
