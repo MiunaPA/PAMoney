@@ -16,7 +16,7 @@ import net.md_5.bungee.api.ChatColor;
 public class Lookup extends SubCommand {
     public Lookup() {
         super("lookup", "pamoney.lookup",
-                ChatColor.RED + "/money lookup [起始值] [ID]" + ChatColor.GRAY + "- 查詢交易記錄");
+                ChatColor.RED + "/money lookup" + ChatColor.GRAY + " - 查詢最近15筆交易記錄");
     }
 
     public boolean onCommand(CommandSender sender, Command commang, String label, String[] args) {
@@ -81,13 +81,13 @@ public class Lookup extends SubCommand {
         if (start < 1) {
             start = 1;
         }
-        List<Record> recordList = API.getRecordList(uuid, start - 1, 10);
+        List<Record> recordList = API.getRecordList(uuid, start - 1, 15);
         if (recordList.size() == 0) {
             API.sendMessage(sender, "&c查詢不到記錄(可能是沒有記錄或起始值太大)", true);
             return;
         } else {
             API.sendMessage(sender,
-                    "&a查詢 &b" + name + " &a的交易紀錄如下&7(以第&c" + start + "&7筆記錄 向前查詢10筆)", true);
+                    "&a查詢 &b" + name + " &a的交易紀錄如下&7(以第&c" + start + "&7筆記錄 向前查詢15筆)", true);
         }
         for (Record record : recordList) {
             String varyText = "";
