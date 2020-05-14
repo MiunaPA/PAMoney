@@ -105,9 +105,9 @@ public class Pay extends SubCommand {
                 "/money pay " + payName + " " + payAmount + " " + rd.toString()));
         accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                 new ComponentBuilder("點我").color(ChatColor.GREEN).append(" 以確認轉帳")
-                        .color(ChatColor.GREEN).append("\n轉帳給 ").color(ChatColor.YELLOW)
+                        .color(ChatColor.GREEN).append("\n轉帳給 ").color(ChatColor.LIGHT_PURPLE)
                         .append(payName).color(ChatColor.AQUA).append(" " + payAmount)
-                        .color(ChatColor.YELLOW).append(" 元").create()));
+                        .color(ChatColor.RED).append(" 元").color(ChatColor.LIGHT_PURPLE).create()));
         TextComponent deny = new TextComponent(
                 ChatColor.GRAY + "【" + ChatColor.RED + "取消" + ChatColor.GRAY + "】");
         deny.setClickEvent(
