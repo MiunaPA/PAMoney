@@ -107,7 +107,7 @@ public class Pay extends SubCommand {
                 new ComponentBuilder("點我").color(ChatColor.GREEN).append(" 以確認轉帳")
                         .color(ChatColor.GREEN).append("\n轉帳給 ").color(ChatColor.YELLOW)
                         .append(payName).color(ChatColor.AQUA).append(" " + payAmount)
-                        .color(ChatColor.RED).append("元").create()));
+                        .color(ChatColor.YELLOW).append(" 元").create()));
         TextComponent deny = new TextComponent(
                 ChatColor.GRAY + "【" + ChatColor.RED + "取消" + ChatColor.GRAY + "】");
         deny.setClickEvent(
