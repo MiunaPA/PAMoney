@@ -1,7 +1,7 @@
 main: me.miunapa.money.Main
 name: PAMoney
 author: MiunaPA
-version: 1.1.2dev
+version: 1.1.2
 depend: [Vault]
 api-version: 1.15
 
