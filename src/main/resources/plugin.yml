@@ -1,7 +1,7 @@
 main: me.miunapa.money.Main
 name: PAMoney
 author: MiunaPA
-version: 1.1.1
+version: 1.1.2dev
 depend: [Vault]
 api-version: 1.15
 
@@ -29,6 +29,7 @@ permissions:
     description: 小管理員能用的指令
     children:
       pamoney.lookup.other: true
+      pamoney.lookup.history: true
   pamoney.user:
     description: 玩家能用的指令
     children:
@@ -62,4 +63,7 @@ permissions:
     default: true  
   pamoney.lookup.other:
     description: 查看金錢交易紀錄(別人)
+    default: op  
+  pamoney.lookup.history:
+    description: 查看金錢交易紀錄(歷史記錄)
     default: op  

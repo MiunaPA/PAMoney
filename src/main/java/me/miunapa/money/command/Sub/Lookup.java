@@ -22,6 +22,14 @@ public class Lookup extends SubCommand {
     public boolean onCommand(CommandSender sender, Command commang, String label, String[] args) {
         String lookupName = "";
         Integer start = 0;
+        if (args.length != 1) {
+            if (sender instanceof Player) {
+                if (!((Player) sender).hasPermission("pamoney.lookup.history")) {
+                    API.sendMessage(sender, "&d你只能輸入 &c/money lookup &d來查詢自己最近的記錄");
+                    return false;
+                }
+            }
+        }
         if (args.length == 1) {
             if (sender instanceof Player) {
                 lookupName = ((Player) sender).getName();
@@ -75,7 +83,7 @@ public class Lookup extends SubCommand {
         }
         List<Record> recordList = API.getRecordList(uuid, start - 1, 10);
         if (recordList.size() == 0) {
-            API.sendMessage(sender, "&c查詢不到記錄(可能是起始值太大)", true);
+            API.sendMessage(sender, "&c查詢不到記錄(可能是沒有記錄或起始值太大)", true);
             return;
         } else {
             API.sendMessage(sender,
