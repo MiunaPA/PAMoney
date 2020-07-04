@@ -80,6 +80,7 @@ public class RootCommand implements CommandExecutor, TabCompleter {
         commands.add(new Pay());
         commands.add(new Help());
         commands.add(new Lookup());
+        commands.add(new Reconnect());
     }
 
     void getBalance(CommandSender sender, String name) {

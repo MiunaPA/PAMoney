@@ -57,9 +57,31 @@ public class MySQL implements Listener, Database {
                 return;
             }
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database,
-                    this.username, this.password);
+            connection =
+                    DriverManager.getConnection(
+                            "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database
+                                    + "?useSSL=false&autoReconnect=true",
+                            this.username, this.password);
+        }
+    }
+
+    public void reconnect() {
+        try {
+            plugin.getLogger().info("reconnecting...");
+            connection.close();
+            connection = null;
+            openConnection();
+            plugin.getLogger().info("reconnected");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void disconnect() {
+        try {
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

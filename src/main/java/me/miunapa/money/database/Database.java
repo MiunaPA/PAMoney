@@ -34,4 +34,9 @@ public interface Database {
     void addRecord(String uuid, double vary, double balance, String remark);
 
     List<Record> getRecord(String uuid, int start, int count);
+
+    // 資料庫連線
+    void reconnect();
+
+    void disconnect();
 }

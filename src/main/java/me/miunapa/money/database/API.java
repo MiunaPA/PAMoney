@@ -190,4 +190,12 @@ public class API {
     public static String getPrefix() {
         return prefix;
     }
+
+    public static void reconnect() {
+        db.reconnect();
+    }
+
+    public static void disconnect() {
+        db.disconnect();
+    }
 }
