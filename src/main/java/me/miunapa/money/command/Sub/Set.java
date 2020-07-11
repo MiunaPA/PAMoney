@@ -30,7 +30,7 @@ public class Set extends SubCommand {
                 API.sendMessage(sender,
                         "&a已將 &b" + setName + " &a設定為 &c" + setAmount + " &a元&7[扣除]");
             } else if (originalAmount < setAmount) {
-                if ((originalAmount + setAmount) >= API.getConfig().getDouble("limit_money")) {
+                if (setAmount >= API.getConfig().getDouble("limit_money")) {
                     API.sendMessage(sender, "&b" + setName + "&d 設定後的錢會超過可擁有的上限 無法執行");
                 } else {
                     API.deposit(setName, setAmount - originalAmount, "管理員設定[增加]");
