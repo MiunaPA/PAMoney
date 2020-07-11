@@ -3,7 +3,7 @@ name: PAMoney
 author: MiunaPA
 version: 1.3.1
 depend: [Vault]
-api-version: 1.16
+api-version: 1.15
 
 commands:
   money:
