@@ -13,7 +13,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 
 public class API {
-    private static Plugin plugin = Bukkit.getPluginManager().getPlugin("PAMoney");
+    private static Plugin plugin = Bukkit.getPluginManager().getPlugin("PA_Money");
     private static Database db = null;
     private static String prefix =
             ChatColor.GRAY + "[" + ChatColor.GOLD + "PA-Money" + ChatColor.GRAY + "] ";

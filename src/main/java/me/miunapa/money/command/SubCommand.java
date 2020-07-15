@@ -9,7 +9,7 @@ public abstract class SubCommand {
     private final String name;
     private final String permission;
     private final String helpMessage;
-    public Plugin plugin = Bukkit.getPluginManager().getPlugin("PAMoney");
+    public Plugin plugin = Bukkit.getPluginManager().getPlugin("PA_Money");
 
     public SubCommand(String name, String permission, String helpMessage) {
         this.name = name;

@@ -32,7 +32,7 @@ public class VaultHandler implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (plugin == null) {
-                Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("PAMoney");
+                Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("PA_Money");
                 if (plugin != null && plugin.isEnabled()) {
                     VaultHandler.this.plugin = (Main) plugin;
                     VaultHandler.this.plugin.getLogger().info("Vault support enabled.");

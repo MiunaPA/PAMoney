@@ -29,7 +29,7 @@ public class Main extends JavaPlugin {
             getLogger().info("資料儲存方式 : yml");
         }
         init();
-        getLogger().info("PAMoney Starting!  Author:MiunaPA");
+        getLogger().info("PA_Money Starting!  Author:MiunaPA");
         API.setConfig(config);
         if (API.setupEconomy()) {
             getLogger().info("PA Money");
@@ -38,7 +38,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info("PAMoney Stop!  Author:MiunaPA");
+        getLogger().info("PA_Money Stop!  Author:MiunaPA");
     }
 
     void init() {
