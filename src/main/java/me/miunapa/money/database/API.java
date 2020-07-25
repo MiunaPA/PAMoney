@@ -102,14 +102,13 @@ public class API {
 
     public static String formatAmountString(double amount) {
         DecimalFormat df = new DecimalFormat("#,###.#");
-        return df.format(amount);
+        return config.getString("format").replace("<amount>", df.format(amount));
     }
 
     public static double formatAmountdouble(double amount) {
         DecimalFormat df = new DecimalFormat("##.#");
         return Double.parseDouble(df.format(amount));
     }
-
 
     /**
      * 減少錢(提款)

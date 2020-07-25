@@ -24,12 +24,14 @@ public class Top extends SubCommand {
             }
             for (Account account : accountList) {
                 if (account.getRank() < 10) {
-                    API.sendMessage(sender, "&a" + account.getRank() + ".  &b" + account.getName()
-                            + " &7- &c" + API.formatAmountString(account.getAmount()) + " &7元",
+                    API.sendMessage(
+                            sender, "&a" + account.getRank() + ".  &b" + account.getName()
+                                    + " &7- &c" + API.formatAmountString(account.getAmount()),
                             true);
                 } else {
-                    API.sendMessage(sender, "&a" + account.getRank() + ". &b" + account.getName()
-                            + " &7- &c" + API.formatAmountString(account.getAmount()) + " &7元",
+                    API.sendMessage(
+                            sender, "&a" + account.getRank() + ". &b" + account.getName()
+                                    + " &7- &c" + API.formatAmountString(account.getAmount()),
                             true);
                 }
             }

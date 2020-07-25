@@ -86,7 +86,7 @@ public class RootCommand implements CommandExecutor, TabCompleter {
     void getBalance(CommandSender sender, String name) {
         if (API.hasBalanceByName(name)) {
             double d = API.getBalanceByName(name);
-            API.sendMessage(sender, "&b" + name + " &7目前有 &c" + API.formatAmountString(d) + " &7元");
+            API.sendMessage(sender, "&b" + name + " &7目前有 &c" + API.formatAmountString(d));
         } else {
             API.sendMessage(sender, "&d此帳號不存在 無法查詢餘額");
         }
