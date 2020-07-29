@@ -6,6 +6,7 @@ MySQL:
     database: ''
     username: ''
     password: ''
+    table: 'pamoney'
 server_name: server
 limit_money: 1000000.0
 init_money: 0.0

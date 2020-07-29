@@ -23,7 +23,7 @@ import me.miunapa.money.Main;
 
 public class MySQL implements Listener, Database {
     private Connection connection;
-    private String host, database, username, password;
+    private String host, database, username, password, table;
     private int port;
     Main plugin = Main.getPlugin(Main.class);
     FileConfiguration config = plugin.getConfig();
@@ -36,6 +36,7 @@ public class MySQL implements Listener, Database {
         database = config.getString("MySQL.connect.database");
         username = config.getString("MySQL.connect.username");
         password = config.getString("MySQL.connect.password");
+        table = config.getString("MySQL.connect.table");
         try {
             openConnection();
             setupStatus = true;
@@ -91,8 +92,8 @@ public class MySQL implements Listener, Database {
             public void run() {
                 try {
                     Statement statement = connection.createStatement();
-                    String createIdSQL = "CREATE TABLE IF NOT EXISTS " + database + ".pamoney ("
-                            + "uuid CHAR(36) PRIMARY KEY," + "name CHAR(16) NOT NULL,"
+                    String createIdSQL = "CREATE TABLE IF NOT EXISTS " + database + "." + table
+                            + " (" + "uuid CHAR(36) PRIMARY KEY," + "name CHAR(16) NOT NULL,"
                             + "balance DOUBLE);";
                     statement.execute(createIdSQL);
                 } catch (SQLException e) {
@@ -100,11 +101,11 @@ public class MySQL implements Listener, Database {
                 }
                 try {
                     Statement statement = connection.createStatement();
-                    String createRecordSQL = "CREATE TABLE IF NOT EXISTS " + database
-                            + ".pamoney_record (" + "time timestamp(3) DEFAULT NOW(3),"
+                    String createRecordSQL = "CREATE TABLE IF NOT EXISTS " + database + "." + table
+                            + "_record (" + "time timestamp(3) DEFAULT NOW(3),"
                             + "uuid CHAR(36) NOT NULL," + "vary DOUBLE," + "balance DOUBLE,"
-                            + "remark VARCHAR(64),"
-                            + "FOREIGN KEY(uuid) REFERENCES pamoney(uuid));";
+                            + "remark VARCHAR(64)," + "FOREIGN KEY(uuid) REFERENCES " + table
+                            + "(uuid));";
                     statement.execute(createRecordSQL);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -127,12 +128,13 @@ public class MySQL implements Listener, Database {
             public void run() {
                 try {
                     PreparedStatement psSelect = connection.prepareStatement(
-                            "SELECT * FROM " + database + ".pamoney where uuid=?;");
+                            "SELECT * FROM " + database + "." + table + " where uuid=?;");
                     psSelect.setString(1, uuid);
                     ResultSet result = psSelect.executeQuery();
                     if (result.next() == false) {
-                        PreparedStatement psInsert = connection.prepareStatement("INSERT INTO "
-                                + database + ".pamoney (uuid, name, balance) VALUES (?, ?, ?);");
+                        PreparedStatement psInsert =
+                                connection.prepareStatement("INSERT INTO " + database + "." + table
+                                        + " (uuid, name, balance) VALUES (?, ?, ?);");
                         psInsert.setString(1, uuid);
                         psInsert.setString(2, name);
                         psInsert.setDouble(3, 0);
@@ -144,8 +146,8 @@ public class MySQL implements Listener, Database {
                         String sqlName = result.getString("name");
                         double amount = getBalanceByUuid(uuid);
                         if (!sqlName.equals(name)) {
-                            PreparedStatement psUpdate = connection.prepareStatement(
-                                    "UPDATE " + database + ".pamoney set name=? where uuid=?;");
+                            PreparedStatement psUpdate = connection.prepareStatement("UPDATE "
+                                    + database + "." + table + " set name=? where uuid=?;");
                             addRecord(uuid, 0, amount, "ID更改 " + sqlName + " --> " + name);
                             psUpdate.setString(1, name);
                             psUpdate.setString(2, uuid);
@@ -172,7 +174,7 @@ public class MySQL implements Listener, Database {
         if (hasBalanceByName(name)) {
             try {
                 PreparedStatement psSelect = connection.prepareStatement(
-                        "SELECT uuid FROM " + database + ".pamoney where name = ?;");
+                        "SELECT uuid FROM " + database + "." + table + " where name = ?;");
                 psSelect.setString(1, name);
                 ResultSet result = psSelect.executeQuery();
                 result.next();
@@ -190,7 +192,7 @@ public class MySQL implements Listener, Database {
         if (hasBalanceByUuid(uuid)) {
             try {
                 PreparedStatement psSelect = connection.prepareStatement(
-                        "SELECT name FROM " + database + ".pamoney where uuid = ?;");
+                        "SELECT name FROM " + database + "." + table + " where uuid = ?;");
                 psSelect.setString(1, uuid);
                 ResultSet result = psSelect.executeQuery();
                 result.next();
@@ -207,7 +209,7 @@ public class MySQL implements Listener, Database {
     public boolean hasBalanceByName(String name) {
         try {
             PreparedStatement psSelectCount = connection.prepareStatement(
-                    "SELECT COUNT(*) FROM " + database + ".pamoney WHERE name=?;");
+                    "SELECT COUNT(*) FROM " + database + "." + table + " WHERE name=?;");
             psSelectCount.setString(1, name);
             ResultSet resultCount = psSelectCount.executeQuery();
             resultCount.next();
@@ -226,7 +228,7 @@ public class MySQL implements Listener, Database {
     public boolean hasBalanceByUuid(String uuid) {
         try {
             PreparedStatement psSelectCount = connection.prepareStatement(
-                    "SELECT COUNT(*) FROM " + database + ".pamoney WHERE uuid=?;");
+                    "SELECT COUNT(*) FROM " + database + "." + table + " WHERE uuid=?;");
             psSelectCount.setString(1, uuid);
             ResultSet resultCount = psSelectCount.executeQuery();
             resultCount.next();
@@ -245,8 +247,8 @@ public class MySQL implements Listener, Database {
     public Double getBalanceByName(String name) {
         try {
             if (hasBalanceByName(name)) {
-                PreparedStatement psSelect = connection
-                        .prepareStatement("SELECT * FROM " + database + ".pamoney WHERE name=?;");
+                PreparedStatement psSelect = connection.prepareStatement(
+                        "SELECT * FROM " + database + "." + table + " WHERE name=?;");
                 psSelect.setString(1, name);
                 ResultSet result = psSelect.executeQuery();
                 result.next();
@@ -263,8 +265,8 @@ public class MySQL implements Listener, Database {
     public Double getBalanceByUuid(String uuid) {
         try {
             if (hasBalanceByUuid(uuid)) {
-                PreparedStatement psSelect = connection
-                        .prepareStatement("SELECT * FROM " + database + ".pamoney WHERE uuid=?;");
+                PreparedStatement psSelect = connection.prepareStatement(
+                        "SELECT * FROM " + database + "." + table + " WHERE uuid=?;");
                 psSelect.setString(1, uuid);
                 ResultSet result = psSelect.executeQuery();
                 result.next();
@@ -282,7 +284,7 @@ public class MySQL implements Listener, Database {
         try {
             if (hasBalanceByName(name)) {
                 PreparedStatement psUpdate = connection.prepareStatement(
-                        "UPDATE " + database + ".pamoney set balance=? where name=?;");
+                        "UPDATE " + database + "." + table + " set balance=? where name=?;");
                 psUpdate.setDouble(1, balance);
                 psUpdate.setString(2, name);
                 psUpdate.executeUpdate();
@@ -296,7 +298,7 @@ public class MySQL implements Listener, Database {
         try {
             if (hasBalanceByUuid(uuid)) {
                 PreparedStatement psUpdate = connection.prepareStatement(
-                        "UPDATE " + database + ".pamoney set balance=? where uuid=?;");
+                        "UPDATE " + database + "." + table + " set balance=? where uuid=?;");
                 psUpdate.setDouble(1, balance);
                 psUpdate.setString(2, uuid);
                 psUpdate.executeUpdate();
@@ -310,7 +312,7 @@ public class MySQL implements Listener, Database {
         try {
             PreparedStatement psSelect = connection.prepareStatement(
                     "SELECT uuid,name,balance,RANK() OVER (ORDER BY balance DESC) AS top_rank FROM "
-                            + database + ".pamoney LIMIT ?,?;");
+                            + database + "." + table + " LIMIT ?,?;");
             psSelect.setInt(1, start);
             psSelect.setInt(2, count);
             ResultSet result = psSelect.executeQuery();
@@ -334,9 +336,9 @@ public class MySQL implements Listener, Database {
             @Override
             public void run() {
                 try {
-                    PreparedStatement psInsert = connection.prepareStatement("INSERT INTO "
-                            + database
-                            + ".pamoney_record (uuid, vary, balance,remark) VALUES (?, ?, ?, ?);");
+                    PreparedStatement psInsert =
+                            connection.prepareStatement("INSERT INTO " + database + "." + table
+                                    + "_record (uuid, vary, balance,remark) VALUES (?, ?, ?, ?);");
                     psInsert.setString(1, uuid);
                     psInsert.setDouble(2, vary);
                     psInsert.setDouble(3, balance);
@@ -354,7 +356,7 @@ public class MySQL implements Listener, Database {
         try {
             PreparedStatement psSelect = connection.prepareStatement(
                     "SELECT time,vary,balance,remark,RANK() OVER (ORDER BY time DESC) AS no FROM "
-                            + database + ".pamoney_record WHERE uuid=? LIMIT ?,?;");
+                            + database + "." + table + "_record WHERE uuid=? LIMIT ?,?;");
             psSelect.setString(1, uuid);
             psSelect.setInt(2, start);
             psSelect.setInt(3, count);
