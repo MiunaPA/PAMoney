@@ -29,10 +29,9 @@ public class Main extends JavaPlugin {
             getLogger().info("資料儲存方式 : yml");
         }
         init();
-        getLogger().info("PA_Money Starting!  Author:MiunaPA");
         API.setConfig(config);
         if (API.setupEconomy()) {
-            getLogger().info("PA Money");
+            getLogger().info("PA_Money Starting!  Author:MiunaPA");
         }
     }
 
