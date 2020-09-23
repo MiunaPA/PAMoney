@@ -30,6 +30,8 @@ public interface Database {
 
     List<Account> getTop(int start, int count);
 
+    Double getSumBalance(double minBalance);
+
     // 交易紀錄資料庫
     void addRecord(String uuid, double vary, double balance, String remark);
 

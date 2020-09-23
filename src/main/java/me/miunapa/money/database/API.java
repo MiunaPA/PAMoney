@@ -186,6 +186,10 @@ public class API {
         return db.getRecord(uuid, start, count);
     }
 
+    public static Double getSumBalance(double minBalance) {
+        return db.getSumBalance(minBalance);
+    }
+
     public static String getPrefix() {
         return prefix;
     }

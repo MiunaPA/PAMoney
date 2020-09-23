@@ -374,4 +374,18 @@ public class MySQL implements Listener, Database {
             return null;
         }
     }
+
+    public Double getSumBalance(double minBalance) {
+        try {
+            PreparedStatement psSelect = connection.prepareStatement(
+                    "SELECT SUM(balance) FROM " + database + "." + table + " where balance>=?;");
+            psSelect.setDouble(1, minBalance);
+            ResultSet result = psSelect.executeQuery();
+            result.next();
+            return result.getDouble("SUM(balance)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
