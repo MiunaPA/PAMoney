@@ -29,8 +29,13 @@ public class Sum extends SubCommand {
             return false;
         }
         String resultSumText = API.formatAmountString(API.getSumBalance(minBalance));
-        API.sendMessage(sender, "&a目前貨幣總額&7 : &c" + resultSumText + " &7(排除<" + minBalance + ") &3"
-                + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
+        if (minBalance > 0) {
+            API.sendMessage(sender, "&a目前貨幣總額&7 : &c" + resultSumText + " &3"
+                    + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
+        } else {
+            API.sendMessage(sender, "&a目前貨幣總額&7 : &c" + resultSumText + " &7(排除<" + minBalance
+                    + ") &3" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
+        }
         return false;
     }
 }
