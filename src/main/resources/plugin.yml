@@ -1,7 +1,7 @@
 main: me.miunapa.money.Main
 name: PA_Money
 author: MiunaPA
-version: 1.5.3
+version: 1.5.4
 depend: [Vault]
 api-version: 1.15
 load: STARTUP

@@ -29,7 +29,7 @@ public class Sum extends SubCommand {
             return false;
         }
         String resultSumText = API.formatAmountString(API.getSumBalance(minBalance));
-        if (minBalance > 0) {
+        if (minBalance == 0) {
             API.sendMessage(sender, "&a目前貨幣總額&7 : &c" + resultSumText + " &3"
                     + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
         } else {
