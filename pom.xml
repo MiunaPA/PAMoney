@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.miunapa.money</groupId>
     <artifactId>PA_Money</artifactId>
-    <version>1.5.4</version>
+    <version>1.5.5</version>
     <name>PA_Money</name>
     <url>http://www.example.com</url>
     <properties>
