@@ -14,7 +14,7 @@ public class Sum extends SubCommand {
                 ChatColor.RED + "/money sum [最小總額] " + ChatColor.GRAY + "- 查詢金錢發行總額");
     }
 
-    public boolean onCommand(CommandSender sender, Command commang, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length != 1 && args.length != 2) {
             API.sendMessage(sender, this.getHelpMessage());
             return false;

@@ -24,12 +24,13 @@ public class Deduct extends SubCommand {
         }
         try {
             double deductAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
+            double resultAmount = API.withdraw(deductName, deductAmount, "管理員扣除");
             if (API.hasAmountByName(deductName, deductAmount)) {
-                double resultAmount = API.withdraw(deductName, deductAmount, "管理員扣除");
                 API.sendMessage(sender, "&a已將 &b" + deductName + " &a扣除了 &c" + deductAmount
                         + " &a元 &7(&2目前有 &c" + resultAmount + " &2元&7)");
             } else {
-                API.sendMessage(sender, "&b" + deductName + "&d 的金額不足 無法執行");
+                API.sendMessage(sender, "&a已將 &b" + deductName + " &a扣除了 &c" + deductAmount
+                        + " &a元 &7(&2目前有 &c" + resultAmount + " &2元&7)[已至負數]");
             }
         } catch (NumberFormatException e) {
             API.sendMessage(sender, "&c金額必須輸入數字(可有小數點)");
