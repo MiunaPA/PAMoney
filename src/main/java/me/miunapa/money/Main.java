@@ -15,18 +15,12 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         configSet();
-        String type = config.getString("type").toLowerCase();
-        if (type.equals("mysql")) {
-            getLogger().info("資料儲存方式 : MySQL");
-            if (!API.setup(type)) {
-                getLogger().info("MySQL 連線錯誤! ");
-                this.onDisable();
-                return;
-            } else {
-                API.initData();
-            }
-        } else if (type.equals("yml")) {
-            getLogger().info("資料儲存方式 : yml");
+        if (!API.setup()) {
+            getLogger().info("MySQL 連線錯誤! ");
+            this.onDisable();
+            return;
+        } else {
+            API.initData();
         }
         init();
         API.setConfig(config);

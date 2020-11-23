@@ -41,14 +41,10 @@ public class API {
         return config;
     }
 
-    public static boolean setup(String type) {
-        if (type.toLowerCase().equals("mysql")) {
-            db = new MySQL();
-            if (db.getSetupStatus() == false) {
-                return false;
-            } else {
-                return true;
-            }
+    public static boolean setup() {
+        db = new MySQL();
+        if (db.getSetupStatus() == false) {
+            return false;
         } else {
             return true;
         }
