@@ -24,6 +24,10 @@ public class Deduct extends SubCommand {
         }
         try {
             double deductAmount = API.formatAmountdouble(Double.parseDouble(args[2]));
+            if (deductAmount <= 0.0) {
+                API.sendMessage(sender, "&c金額不可小於或等於0");
+                return true;
+            }
             double resultAmount = API.withdraw(deductName, deductAmount, "管理員扣除");
             if (API.hasAmountByName(deductName, deductAmount)) {
                 API.sendMessage(sender, "&a已將 &b" + deductName + " &a扣除了 &c" + deductAmount

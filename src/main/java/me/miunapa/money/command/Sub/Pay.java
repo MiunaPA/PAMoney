@@ -52,6 +52,10 @@ public class Pay extends SubCommand {
                 API.sendMessage(player, "&c金額必須輸入數字(可有小數點)");
                 return false;
             }
+            if (payAmount <= 0.0) {
+                API.sendMessage(sender, "&c金額不可小於或等於0");
+                return true;
+            }
             if (payerAmount < payAmount) {
                 API.sendMessage(player, "&c你的錢不夠了");
                 return false;
@@ -62,7 +66,6 @@ public class Pay extends SubCommand {
                 return false;
             }
             payRequest(player, payName, payAmount);
-
         } else if (args.length == 4) {
             try {
                 payerAmount = API.getBalanceByUuid(player.getUniqueId().toString());
@@ -70,6 +73,10 @@ public class Pay extends SubCommand {
             } catch (NumberFormatException e) {
                 API.sendMessage(player, "&c金額必須輸入數字(可有小數點)[arg4]");
                 return false;
+            }
+            if (payAmount <= 0.0) {
+                API.sendMessage(sender, "&c金額不可小於或等於0");
+                return true;
             }
             Integer confirmCode;
             try {

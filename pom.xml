@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.miunapa.money</groupId>
     <artifactId>PA_Money</artifactId>
-    <version>1.5.7</version>
+    <version>1.5.8</version>
     <name>PA_Money</name>
     <url>http://www.example.com</url>
     <properties>
@@ -50,6 +50,7 @@
                     <include>plugin.yml</include>
                     <include>config.yml</include>
                 </includes>
+                <filtering>true</filtering>
             </resource>
         </resources>
         <plugins>
