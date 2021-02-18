@@ -24,8 +24,8 @@ public class Sum extends SubCommand {
             if (args.length == 2) {
                 minBalance = API.formatAmountdouble(Double.parseDouble(args[1]));
             }
-            if (minBalance <= 0.0) {
-                API.sendMessage(sender, "&c數值不可小於或等於0");
+            if (minBalance < 0.0) {
+                API.sendMessage(sender, "&c數值不可小於0");
                 return false;
             }
         } catch (NumberFormatException e) {
